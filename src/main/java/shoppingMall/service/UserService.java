@@ -37,13 +37,13 @@ public class UserService {
         return user == null;
     }
 
-    public User login(String username, String password) {
+    public boolean login(String userId, String password) {
 //        User user = userDao.findByUsername(username);
 //        if (user != null && user.getPassword().equals(password)) {
 //            return user;
 //        }
 //        return null;
-        return null;
+        return true;
     }
     // 아이디와 패스워드 검증
     private boolean validateUserId(String userId, String password) {
