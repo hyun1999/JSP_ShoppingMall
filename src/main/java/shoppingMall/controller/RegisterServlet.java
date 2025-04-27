@@ -22,11 +22,10 @@ public class RegisterServlet extends HttpServlet {
         System.out.println("RegisterServlet In");
         try {
             if (!userService.registerUser(request)) {
-                // 등록 실패시
                 request.setAttribute("errorMessage", "회원가입 실패. 다시 시도해 주세요.");
                 request.getRequestDispatcher("/user/registerForm.jsp").forward(request, response);
             } else {
-                response.sendRedirect(request.getContextPath() + "/registerSuccess.jsp");
+                response.sendRedirect(request.getContextPath() + "/user/registerSuccess.jsp");
             }
         } catch (InvalidUserIdException e) {
             // 사용자 ID 검증 실패시

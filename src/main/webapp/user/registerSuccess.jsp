@@ -12,6 +12,6 @@
 </head>
 <body>
 <h2>회원가입이 완료되었습니다!</h2>
-<a href="registerForm.jsp">다시 가입하기</a>
+<a href="loginForm.jsp">다시 가입하기</a>
 </body>
 </html>
