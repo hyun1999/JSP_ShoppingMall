@@ -1,14 +1,36 @@
 package shoppingMall.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import shoppingMall.dao.UserDao;
 import shoppingMall.domain.User;
-import shoppingMall.dto.UserDto;
+import shoppingMall.dto.RegisterDto;
+import shoppingMall.exception.InvalidUserIdException;
+
+import java.util.regex.Pattern;
 
 public class UserService {
     private UserDao userDao = new UserDao();
 
-    public boolean registerUser(UserDto user) {
-        return userDao.insert(user);
+    // 이메일 형식 검증 정규식
+    private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]{5,15}@[a-zA-Z0-9.-]{1,15}\\.[a-zA-Z]{2,}$";
+    // 사용자 ID 검증 정규식 (영문자, 숫자, 길이 5~15자)
+    private static final String PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z0-9]{5,15}$";
+
+    public boolean registerUser(HttpServletRequest request) throws InvalidUserIdException {
+        System.out.println("Service In");
+
+        String userId = request.getParameter("id");
+        String password = request.getParameter("password");
+        String userName = request.getParameter("name");
+        String phoneNum = request.getParameter("phone_num");
+        String userType = request.getParameter("user_type");
+
+        if (!validateUserId(userId, password)) {
+            throw new InvalidUserIdException("이메일과 비밀번호를 다시 설정해주세요.");
+        }
+
+        RegisterDto registerDto = new RegisterDto(userId, password, userName, phoneNum, userType);
+        return userDao.insertUser(registerDto);
     }
 
     public User login(String username, String password) {
@@ -17,5 +39,12 @@ public class UserService {
             return user;
         }
         return null;
+    }
+
+    private boolean validateUserId(String userId, String password) {
+        if (Pattern.matches(EMAIL_REGEX, userId)) {
+            return true;
+        }
+        return Pattern.matches(PASSWORD_REGEX, password);
     }
 }

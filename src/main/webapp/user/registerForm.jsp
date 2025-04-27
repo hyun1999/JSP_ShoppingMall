@@ -17,10 +17,15 @@
     <label>이메일: <input type="text" name="id"></label><br><br>
     <label>비밀번호: <input type="password" name="password"></label><br><br>
     <label>이름: <input type="text" name="name"></label><br><br>
-    <label>전화번호: <input type="text" name="name"></label><br><br>
+    <label>전화번호: <input type="text" name="phone_num"></label><br><br>
     <label>관리자: <input type="radio" name="user_type" value="admin"></label>
     <label>일반 사용자: <input type="radio" name="user_type" value="user"></label><br><br>
     <button type="submit">회원가입</button>
+    <c:if test="${not empty errorMessage}">
+        <div class="error-message">
+                ${errorMessage}
+        </div>
+    </c:if>
 </form>
 </body>
 </html>

@@ -5,7 +5,6 @@ import java.security.NoSuchAlgorithmException;
 
 public class Encoder {
 
-    // 평문 비밀번호를 SHA-256으로 암호화
     public static String encode(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -14,7 +13,13 @@ public class Encoder {
             for (byte b : bytes) {
                 sb.append(String.format("%02x", b));
             }
-            return sb.toString(); // 16진수 문자열로 반환
+            String encrypted = sb.toString();
+
+            if (encrypted.length() > 64) {
+                encrypted = encrypted.substring(0, 64);
+            }
+
+            return encrypted;
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
