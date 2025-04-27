@@ -3,6 +3,7 @@ package shoppingMall.dao;
 import shoppingMall.domain.User;
 import shoppingMall.domain.enums.Status;
 import shoppingMall.domain.enums.UserType;
+import shoppingMall.dto.RegisterDto;
 import shoppingMall.dto.UserDto;
 import shoppingMall.utils.JdbcDriver;
 
@@ -10,14 +11,28 @@ import java.sql.*;
 
 public class UserDao {
 
-    public boolean insert(UserDto user) {
-        String sql = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
+    public boolean insertUser(RegisterDto user) {
+        System.out.println("DAO In");
+
+        String sql = "    INSERT INTO tb_user (\n" +
+                     "        id_user, nm_user, nm_paswd, nm_enc_paswd,\n" +
+                     "        no_mobile, nm_email, st_status, cd_user_type, no_register, da_first_date\n" +
+                     "    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)\n";
         try (Connection conn = JdbcDriver.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, user.getName());
-            ps.setString(2, user.getPassword());
-            ps.setString(3, user.getEmail());
+            ps.setString(1, user.getUserId());
+            ps.setString(2, user.getUserName());
+            ps.setString(3, user.getPassword());
+            ps.setString(4, user.getEncPassword());
+            ps.setString(5, user.getMobileNo());
+            ps.setString(6, user.getEmail());
+            ps.setString(7, user.getStatus().name());
+            ps.setString(8, user.getUserType().name());
+            ps.setString(9, user.getRegisterNo());
+            ps.setTimestamp(10, Timestamp.valueOf(user.getFirstDate()));
             int rows = ps.executeUpdate();
+            System.out.println("rows = " + rows);
+            System.out.println("완료");
             return rows > 0;
         } catch (SQLException e) {
             e.printStackTrace();

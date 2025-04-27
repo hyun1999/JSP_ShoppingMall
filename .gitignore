@@ -16,7 +16,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 WEB-INF/db.properties
-
+db.properties
 ### Eclipse ###
 .apt_generated
 .classpath

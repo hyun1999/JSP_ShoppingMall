@@ -5,28 +5,33 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import shoppingMall.dao.UserDao;
+import shoppingMall.exception.InvalidUserIdException;
+import shoppingMall.service.UserService;
 
 import java.io.IOException;
 
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
-
+    private UserService userService = new UserService();
     @Override
     protected  void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         request.getRequestDispatcher("/user/registerForm.jsp").forward(request, response);
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 폼 데이터 받기
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-
-        // DB 저장 로직 (간단 예시)
-        UserDao userDao = new UserDao();
-//        userDao.insert(new User(username, password));
-
-        // 회원가입 완료 후 로그인 페이지로 리다이렉트
-        response.sendRedirect(request.getContextPath() + "/registerSuccess.jsp");
+        System.out.println("RegisterServlet In");
+        try {
+            if (!userService.registerUser(request)) {
+                // 등록 실패시
+                request.setAttribute("errorMessage", "회원가입 실패. 다시 시도해 주세요.");
+                request.getRequestDispatcher("/user/registerForm.jsp").forward(request, response);
+            } else {
+                response.sendRedirect(request.getContextPath() + "/registerSuccess.jsp");
+            }
+        } catch (InvalidUserIdException e) {
+            // 사용자 ID 검증 실패시
+            request.setAttribute("errorMessage", e.getMessage());
+            request.getRequestDispatcher("/user/registerForm.jsp").forward(request, response);
+        }
     }
 }

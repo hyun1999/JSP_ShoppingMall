@@ -23,10 +23,9 @@ public class JdbcDriver {
         Properties prop = new Properties();
 
         try {
-            prop.load(JdbcDriver.class.getClassLoader().getResourceAsStream("WEB-INF/db.properties"));
+            prop.load(JdbcDriver.class.getClassLoader().getResourceAsStream("db.properties"));
 
             String url = prop.getProperty("jdbc.url");
-            System.out.println(url);
             String user = prop.getProperty("jdbc.user");
             String password = prop.getProperty("jdbc.password");
             conn = DriverManager.getConnection(url, user, password);
