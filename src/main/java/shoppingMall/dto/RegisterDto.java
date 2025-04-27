@@ -26,7 +26,7 @@ public class RegisterDto {
         this.mobileNo = phoneNum;
         this.email = userId;
         this.status = Status.ST01;
-        this.userType = userType.equals("user") ? UserType.User : UserType.Admin;
+        this.userType = userType.equals("user") ? UserType.User : UserType.Admn;
         this.registerNo = "ADMIN";
         this.firstDate = LocalDateTime.now();
     }

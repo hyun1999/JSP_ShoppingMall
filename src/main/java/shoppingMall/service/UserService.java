@@ -17,8 +17,6 @@ public class UserService {
     private static final String PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z0-9]{5,15}$";
 
     public boolean registerUser(HttpServletRequest request) throws InvalidUserIdException {
-        System.out.println("Service In");
-
         String userId = request.getParameter("id");
         String password = request.getParameter("password");
         String userName = request.getParameter("name");
@@ -33,14 +31,21 @@ public class UserService {
         return userDao.insertUser(registerDto);
     }
 
-    public User login(String username, String password) {
-        User user = userDao.findByUsername(username);
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
-        }
-        return null;
+    // 이메일 중복 검증
+    public boolean validateDuplicate(String userId) {
+        User user = userDao.findByUserId(userId);
+        return user == null;
     }
 
+    public User login(String username, String password) {
+//        User user = userDao.findByUsername(username);
+//        if (user != null && user.getPassword().equals(password)) {
+//            return user;
+//        }
+//        return null;
+        return null;
+    }
+    // 아이디와 패스워드 검증
     private boolean validateUserId(String userId, String password) {
         if (Pattern.matches(EMAIL_REGEX, userId)) {
             return true;

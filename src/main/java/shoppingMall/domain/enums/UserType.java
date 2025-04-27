@@ -3,7 +3,7 @@ package shoppingMall.domain.enums;
 public enum UserType
 {
     User(10),
-    Admin(20);
+    Admn(20);
 
     private final int value;
 

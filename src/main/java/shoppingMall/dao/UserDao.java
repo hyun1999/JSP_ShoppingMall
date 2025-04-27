@@ -4,7 +4,6 @@ import shoppingMall.domain.User;
 import shoppingMall.domain.enums.Status;
 import shoppingMall.domain.enums.UserType;
 import shoppingMall.dto.RegisterDto;
-import shoppingMall.dto.UserDto;
 import shoppingMall.utils.JdbcDriver;
 
 import java.sql.*;
@@ -12,8 +11,6 @@ import java.sql.*;
 public class UserDao {
 
     public boolean insertUser(RegisterDto user) {
-        System.out.println("DAO In");
-
         String sql = "    INSERT INTO tb_user (\n" +
                      "        id_user, nm_user, nm_paswd, nm_enc_paswd,\n" +
                      "        no_mobile, nm_email, st_status, cd_user_type, no_register, da_first_date\n" +
@@ -40,37 +37,36 @@ public class UserDao {
         return false;
     }
 
-    public User findByUsername(String username) {
-        String sql = "SELECT * FROM users WHERE user_id = ?";
+    public User findByUserId(String userId) {
+        String sql = "SELECT * FROM tb_user WHERE id_user = ?";
         try (Connection conn = JdbcDriver.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, username);
+            ps.setString(1, userId);
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     User user = new User();
-                    user.setUserId(rs.getString("user_id"));
-                    user.setUserName(rs.getString("user_name"));
-                    user.setPassword(rs.getString("password"));
-                    user.setEncPassword(rs.getString("enc_password"));
-                    user.setMobileNo(rs.getString("mobile_no"));
-                    user.setEmail(rs.getString("email"));
+                    user.setUserId(rs.getString("ID_USER"));
+                    user.setUserName(rs.getString("NM_USER"));
+                    user.setPassword(rs.getString("NM_PASWD"));
+                    user.setEncPassword(rs.getString("NM_ENC_PASWD"));
+                    user.setMobileNo(rs.getString("NO_MOBILE"));
+                    user.setEmail(rs.getString("NM_EMAIL"));
 
-                    String statusStr = rs.getString("status");
+                    String statusStr = rs.getString("ST_STATUS");
                     if (statusStr != null) {
                         user.setStatus(Status.valueOf(statusStr));
                     }
 
-                    String userTypeStr = rs.getString("user_type");
+                    String userTypeStr = rs.getString("CD_USER_TYPE");
                     if (userTypeStr != null) {
                         user.setUserType(UserType.valueOf(userTypeStr));
                     }
 
-                    user.setRegisterNo(rs.getString("register_no"));
+                    user.setRegisterNo(rs.getString("NO_REGISTER"));
 
-                    // LocalDateTime 변환
-                    Timestamp timestamp = rs.getTimestamp("first_date");
+                    Timestamp timestamp = rs.getTimestamp("DA_FIRST_DATE");
                     if (timestamp != null) {
                         user.setFirstDate(timestamp.toLocalDateTime());
                     }
