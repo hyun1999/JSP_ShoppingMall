@@ -20,7 +20,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userId = request.getParameter("userId");
         String password = request.getParameter("password");
-        if(userService.login(userId, password)) response.sendRedirect(request.getContextPath() + "/index.jsp");
-        else response.sendRedirect(request.getContextPath() + "/user/login.jsp");
+        if(userService.login(userId, password)) response.sendRedirect(request.getContextPath() + "/index.jsp"); // 로그인 성공시
+        else request.getRequestDispatcher("/user/loginForm.jsp").forward(request, response); // 로그인 실패시
     }
 }
