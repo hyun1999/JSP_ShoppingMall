@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import shoppingMall.domain.enums.UserType;
-import shoppingMall.dto.UserDto;
 import shoppingMall.dto.UserTypeDto;
 import shoppingMall.service.UserService;
 

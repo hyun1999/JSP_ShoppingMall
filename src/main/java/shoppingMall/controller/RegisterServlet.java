@@ -44,7 +44,8 @@ public class RegisterServlet extends HttpServlet {
                 request.setAttribute("errorMessage", "회원가입 실패. 다시 시도해 주세요.");
                 request.getRequestDispatcher("/user/register.jsp").forward(request, response);
             } else {
-                response.sendRedirect(request.getContextPath() + "/user/registerSuccess.jsp");
+                response.sendRedirect(request.getContextPath() + "/index.jsp");
+
             }
         } catch (InvalidUserIdException e) {
             request.setAttribute("errorMessage", e.getMessage());

@@ -26,6 +26,9 @@ public class FrontControllerServlet extends HttpServlet {
         } else if (path.equals("/login.do")) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/login");
             dispatcher.forward(request, response);
+        } else if (path.equals("/logout.do")) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/logout");
+            dispatcher.forward(request, response);
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
