@@ -19,7 +19,6 @@ public class RegisterServlet extends HttpServlet {
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("RegisterServlet In");
         try {
             if (!userService.registerUser(request)) {
                 request.setAttribute("errorMessage", "회원가입 실패. 다시 시도해 주세요.");

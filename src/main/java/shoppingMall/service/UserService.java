@@ -5,6 +5,7 @@ import shoppingMall.dao.UserDao;
 import shoppingMall.domain.User;
 import shoppingMall.dto.RegisterDto;
 import shoppingMall.exception.InvalidUserIdException;
+import shoppingMall.utils.Encoder;
 
 import java.util.regex.Pattern;
 
@@ -37,14 +38,15 @@ public class UserService {
         return user == null;
     }
 
-    public User login(String username, String password) {
-//        User user = userDao.findByUsername(username);
-//        if (user != null && user.getPassword().equals(password)) {
-//            return user;
-//        }
-//        return null;
-        return null;
+    public boolean login(String userId, String password) {
+        User findUser= userDao.findByUserId(userId);
+        if (findUser == null) return false; // user가 없으면 false처리
+        String foundEncPassword = findUser.getEncPassword();
+        String encodedPassword = Encoder.encode(password);
+        if(foundEncPassword.equals(encodedPassword)) return true;
+        else return false;
     }
+
     // 아이디와 패스워드 검증
     private boolean validateUserId(String userId, String password) {
         if (Pattern.matches(EMAIL_REGEX, userId)) {
