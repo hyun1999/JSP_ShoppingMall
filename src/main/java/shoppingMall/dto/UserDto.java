@@ -1,11 +1,12 @@
 package shoppingMall.dto;
 
+import shoppingMall.domain.enums.UserType;
 
 public class UserDto {
     private String userId;
     private String password;
 
-    public UserDto() {}
+    public UserDto(String userId, String userName, UserType userType) {}
 
     public UserDto(String userId, String password) {
         this.userId = userId;
