@@ -3,7 +3,10 @@ package shoppingMall.service;
 import jakarta.servlet.http.HttpServletRequest;
 import shoppingMall.dao.UserDao;
 import shoppingMall.domain.User;
+import shoppingMall.domain.enums.UserType;
 import shoppingMall.dto.RegisterDto;
+import shoppingMall.dto.UserDto;
+import shoppingMall.dto.UserTypeDto;
 import shoppingMall.exception.InvalidUserIdException;
 import shoppingMall.utils.Encoder;
 
@@ -18,7 +21,7 @@ public class UserService {
     private static final String PASSWORD_REGEX = "^(?=.*[a-zA-Z])(?=.*\\d)[a-zA-Z0-9]{5,15}$";
 
     public boolean registerUser(HttpServletRequest request) throws InvalidUserIdException {
-        String userId = request.getParameter("id");
+        String userId = request.getParameter("userId");
         String password = request.getParameter("password");
         String userName = request.getParameter("name");
         String phoneNum = request.getParameter("phone_num");
@@ -47,11 +50,24 @@ public class UserService {
         else return false;
     }
 
+    public UserTypeDto getUserByUserId(String userId){
+        User foundUser = userDao.findByUserId(userId);
+        return new UserTypeDto(foundUser.getUserId(),foundUser.getUserName(),foundUser.getUserType());
+    }
+
     // 아이디와 패스워드 검증
     private boolean validateUserId(String userId, String password) {
         if (Pattern.matches(EMAIL_REGEX, userId)) {
             return true;
         }
         return Pattern.matches(PASSWORD_REGEX, password);
+    }
+
+    public boolean nullCheck(HttpServletRequest request) {
+        if(request.getParameter("userId") == null) return false;
+        else if(request.getParameter("password") == null) return false;
+        else if(request.getParameter("name") == null) return false;
+        else if(request.getParameter("phone_num") == null) return false;
+        else return true;
     }
 }
