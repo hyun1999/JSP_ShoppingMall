@@ -45,7 +45,6 @@ public class RegisterServlet extends HttpServlet {
                 request.getRequestDispatcher("/user/register.jsp").forward(request, response);
             } else {
                 response.sendRedirect(request.getContextPath() + "/index.jsp");
-
             }
         } catch (InvalidUserIdException e) {
             request.setAttribute("errorMessage", e.getMessage());

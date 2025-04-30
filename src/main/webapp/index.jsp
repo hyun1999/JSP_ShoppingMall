@@ -7,22 +7,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Coupang</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=2">
 </head>
 <body>
 
-<jsp:include page="/user/common/header.jsp" />
+<jsp:include page="/common/header.jsp" />
 
 <main>
     <% if (userName != null) { %>
     <div class="welcome"><strong><%= userName %></strong> 님 반갑습니다.</div>
     <% } %>
 
-    <jsp:include page="/user/common/menu.jsp" />
-    <jsp:include page="/user/common/products.jsp" />
+    <jsp:include page="/common/menu.jsp" />
+    <jsp:include page="/common/products.jsp" />
 </main>
 
-<jsp:include page="/user/common/footer.jsp" />
+<jsp:include page="/common/footer.jsp" />
 
 </body>
 </html>

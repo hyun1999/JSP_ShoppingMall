@@ -1,41 +1,166 @@
+/*============================= 기본 설정 =============================*/
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
 }
 
+
+/*============================= 헤더 상단 링크 영역 =============================*/
 .header-container {
-    background-color: #4CAF50;
-    padding: 10px;
-    text-align: center;
-    color: white;
+    background-color: #F0F0F0;
+    padding: 5px;
     display: flex;
     justify-content: flex-end;
 }
-.header-button-container{
-    margin-right: 130px;
+
+.header-button-container {
+    margin-right: 300px;
 }
-.header-container button {
-    padding: 2px 8px;
-    font-size: 10px;
-    cursor: pointer;
-    margin-right: 10px;
+
+.header-link {
+    display: inline-block;
+    padding: 8px 10px 4px;
+    font-size: 12px;
+    color: #606060;
+    text-decoration: none;
 }
+
+.header-link:hover {
+    text-decoration: underline;
+}
+
+
+/*============================= 검색 영역 =============================*/
 .search-container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 10px;
+    padding: 20px;
 }
 
-.search-container > * {
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: 10px;
+.search-inner {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    align-items: center;
+    gap: 60px;
+}
+
+h1 {
+    font-size: 28px;
+    margin: 0;
+    color: #333;
+}
+
+
+/*============================= 검색 폼 =============================*/
+.styled-search-form {
+    display: flex;
+    align-items: center;
+    border: 2px solid #4285f4;
+    border-radius: 4px;
+    width: 600px;
+    max-width: 90%;
+    height: 40px;
+    background-color: white;
+    overflow: visible;
+    position: relative;
+}
+/* 셀렉트 + 화살표 영역 (커스텀 드롭다운용) */
+.select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 130px;
+    height: 100%;
+    border-right: 1px solid #ccc;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.custom-select-display {
+    font-size: 14px;
+    color: #333;
+    user-select: none;
+}
+
+/* 드롭다운 메뉴 */
+.dropdown-menu {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.dropdown-item {
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f2f2f2;
+}
+
+.arrow-icon {
+    width: 12px;
+    height: 12px;
+    pointer-events: none;
+    margin-left: 5px;
+}
+
+/* 검색창 */
+.search-input {
+    flex: 1;
+    border: none;
+    padding: 0 10px;
+    height: 100%;
+    font-size: 14px;
+    outline: none;
+}
+
+/* 버튼들 */
+.voice-button,
+.search-button {
+    background: none;
+    border: none;
+    padding: 0 12px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #666;
+    height: 100%;
+    display: flex;
     align-items: center;
 }
+
+.voice-button:hover,
+.search-button:hover {
+    background-color: #f2f2f2;
+}
+
+
+/*============================= 마이페이지/장바구니 =============================*/
+.utility-links {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    color: #333;
+}
+
+.utility-links > div {
+    cursor: pointer;
+}
+
+.utility-links > div:hover {
+    text-decoration: underline;
+}
+
+
+/*============================= 기타 =============================*/
 .welcome {
     margin: 20px;
     font-size: 18px;
