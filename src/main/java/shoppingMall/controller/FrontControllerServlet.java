@@ -20,7 +20,10 @@ public class FrontControllerServlet extends HttpServlet {
 
         String viewPage = null;
 
-        if (path.equals("/register.do")) {
+        if (path.equals("/home.do")) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/index.jsp");
+            dispatcher.forward(request, response);
+        } else if (path.equals("/register.do")) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/register");
             dispatcher.forward(request, response);
         } else if (path.equals("/login.do")) {

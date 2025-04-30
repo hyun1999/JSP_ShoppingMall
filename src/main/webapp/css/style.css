@@ -45,12 +45,15 @@ body {
     gap: 60px;
 }
 
-h1 {
-    font-size: 28px;
-    margin: 0;
-    color: #333;
+.logo {
+    display: inline-block;
 }
 
+.logo-img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+}
 
 /*============================= 검색 폼 =============================*/
 .styled-search-form {

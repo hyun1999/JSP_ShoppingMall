@@ -25,7 +25,9 @@
 
   <div class="search-container">
     <div class="search-inner">
-      <h1>Coupang</h1>
+      <a href="home.do" class="logo">
+        <img src="<%= request.getContextPath() %>/images/logo.jpg" alt="Coupang 로고" class="logo-img">
+      </a>
       <form action="searchResult.do" method="get" class="styled-search-form">
         <div class="select-wrapper">
           <div id="selected-category" class="custom-select-display">전체</div>
