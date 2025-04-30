@@ -29,6 +29,24 @@ public class FrontControllerServlet extends HttpServlet {
         } else if (path.equals("/logout.do")) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/logout");
             dispatcher.forward(request, response);
+        } else if (path.equals("/mypage.do")) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/mypage");
+            dispatcher.forward(request, response);
+        } else if (path.equals("/editProfile.do")) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/editProfile");
+            dispatcher.forward(request, response);
+        } else if (path.equals("/memberDelete.do")) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/delete");
+            dispatcher.forward(request, response);
+        } else if (path.equals("/adminPage.do")) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/adminPage");
+            dispatcher.forward(request, response);
+        } else if (path.equals("/updateMember.do")) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/updateMember");
+            dispatcher.forward(request, response);
+        } else if (path.equals("/approveUser.do")) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/approveUser");
+            dispatcher.forward(request, response);
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }

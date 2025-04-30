@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class JdbcDriver {
-
     static {
         try {
             Class.forName("oracle.jdbc.OracleDriver");

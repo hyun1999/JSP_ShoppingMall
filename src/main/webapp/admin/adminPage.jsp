@@ -1,0 +1,83 @@
+<%@ page import="java.util.List" %>
+<%@ page import="shoppingMall.domain.User" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>관리자 페이지</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/adminPage.css">
+</head>
+<body>
+<div class="container">
+    <h2><%= session.getAttribute("userName") %> 관리자님, 반갑습니다.</h2>
+
+    <!-- 📌 회원가입 요청 목록 -->
+    <h3>회원가입 요청 목록</h3>
+    <div class="card-container">
+        <%
+            List<User> pendingUsers = (List<User>) request.getAttribute("allPendingUsers");
+            if (pendingUsers != null && !pendingUsers.isEmpty()) {
+                for (User user : pendingUsers) {
+        %>
+        <div class="member-card">
+            <form action="approveUser.do" method="post">
+                <input type="hidden" name="userId" value="<%= user.getUserId() %>" />
+                <p><strong>아이디:</strong> <%= user.getUserId() %></p>
+                <p><strong>이름:</strong> <%= user.getUserName() %></p>
+                <div class="btn-area">
+                    <input type="submit" value="승인" />
+                </div>
+            </form>
+        </div>
+        <%
+            }
+        } else {
+        %>
+        <p>가입 요청한 회원이 없습니다.</p>
+        <% } %>
+    </div>
+
+    <h3>전체 회원 목록</h3>
+    <div class="card-container">
+        <%
+            List<User> allUsers = (List<User>) request.getAttribute("allUsers");
+            if (allUsers != null && !allUsers.isEmpty()) {
+                for (User user : allUsers) {
+        %>
+        <div class="member-card">
+            <form action="updateMember.do" method="post">
+                <input type="hidden" name="userId" value="<%= user.getUserId() %>" />
+                <p><strong>아이디:</strong> <%= user.getUserId() %></p>
+                <label>이름:
+                    <input type="text" name="name" value="<%= user.getUserName() %>" />
+                </label>
+                <label>이메일:
+                    <input type="email" name="email" value="<%= user.getEmail() %>" />
+                </label>
+                <label>상태:
+                    <select name="status">
+                        <option value="ST00" <%= "ST00".equals(user.getStatus().name()) ? "selected" : "" %>>요청</option>
+                        <option value="ST01" <%= "ST01".equals(user.getStatus().name()) ? "selected" : "" %>>정상</option>
+                        <option value="ST02" <%= "ST02".equals(user.getStatus().name()) ? "selected" : "" %>>정지</option>
+                    </select>
+                </label>
+                <label>권한:
+                    <select name="userType">
+                        <option value="User" <%= "User".equals(user.getUserType().name()) ? "selected" : "" %>>일반 사용자</option>
+                        <option value="Admin" <%= "Admn".equals(user.getUserType().name()) ? "selected" : "" %>>관리자</option>
+                    </select>
+                </label>
+                <div class="btn-area">
+                    <input type="submit" value="수정" />
+                </div>
+            </form>
+        </div>
+        <%
+            }
+        } else {
+        %>
+        <p>등록된 회원이 없습니다.</p>
+        <% } %>
+    </div>
+</div>
+</body>
+</html>

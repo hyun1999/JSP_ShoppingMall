@@ -3,13 +3,14 @@ package shoppingMall.service;
 import jakarta.servlet.http.HttpServletRequest;
 import shoppingMall.dao.UserDao;
 import shoppingMall.domain.User;
+import shoppingMall.domain.enums.Status;
 import shoppingMall.domain.enums.UserType;
 import shoppingMall.dto.RegisterDto;
-import shoppingMall.dto.UserDto;
 import shoppingMall.dto.UserTypeDto;
 import shoppingMall.exception.InvalidUserIdException;
 import shoppingMall.utils.Encoder;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class UserService {
@@ -52,7 +53,9 @@ public class UserService {
 
     public UserTypeDto getUserByUserId(String userId){
         User foundUser = userDao.findByUserId(userId);
-        return new UserTypeDto(foundUser.getUserId(),foundUser.getUserName(),foundUser.getUserType());
+        return new UserTypeDto(foundUser.getUserId(),foundUser.getUserName(),
+                foundUser.getPassword(), foundUser.getEmail(),
+                foundUser.getMobileNo(), foundUser.getUserType(), foundUser.getStatus());
     }
 
     // 아이디와 패스워드 검증
@@ -69,5 +72,30 @@ public class UserService {
         else if(request.getParameter("name") == null) return false;
         else if(request.getParameter("phone_num") == null) return false;
         else return true;
+    }
+
+    public User updateUser(HttpServletRequest request) {
+        userDao.updateUser(request);
+        return userDao.findByUserId(request.getParameter("userId"));
+    }
+
+    public void deleteUser(String userId) {
+        userDao.deleteUser(userId);
+    }
+
+    public List<User> getAllUsers() {
+        return userDao.findAllUsers();
+    }
+
+    public List<User> getPendingUsers() {
+        return userDao.findPendingUsers();
+    }
+
+    public void approveUser(String userId) {
+        userDao.updateStatus(userId, Status.ST01);
+    }
+
+    public void updateMember(String userId, String name, String email, Status status, UserType userType) {
+        userDao.updateUser(userId, name, email, status, userType);
     }
 }
