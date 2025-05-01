@@ -10,7 +10,7 @@ import shoppingMall.service.UserService;
 import java.io.IOException;
 
 @WebServlet("/delete")
-public class DeleteMemberServlet extends HttpServlet {
+public class DeleteRequestServlet extends HttpServlet {
     private final UserService userService = new UserService();
 
     @Override
@@ -18,9 +18,10 @@ public class DeleteMemberServlet extends HttpServlet {
         String userId = (String) request.getSession().getAttribute("userId");
 
         if (userId != null) {
-            userService.deleteUser(userId);
+            userService.stopUser(userId);
             request.getSession().invalidate();
         }
+
         response.sendRedirect(request.getContextPath() + "/index.jsp");
     }
 }

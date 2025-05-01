@@ -78,3 +78,7 @@ h2, h3 {
 .btn-area input[type="submit"]:hover {
     background-color: #2980b9;
 }
+.withdrawn-user {
+    border: 2px solid red;
+    background-color: #fff0f0;
+}

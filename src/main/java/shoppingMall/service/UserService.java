@@ -79,8 +79,8 @@ public class UserService {
         return userDao.findByUserId(request.getParameter("userId"));
     }
 
-    public void deleteUser(String userId) {
-        userDao.deleteUser(userId);
+    public void stopUser(String userId) {
+        userDao.updateStatus(userId, Status.ST02);
     }
 
     public List<User> getAllUsers() {
@@ -90,7 +90,9 @@ public class UserService {
     public List<User> getPendingUsers() {
         return userDao.findPendingUsers();
     }
-
+    public List<User> getWithdrawalUsers() {
+        return userDao.findWithdrawalUsers();
+    }
     public void approveUser(String userId) {
         userDao.updateStatus(userId, Status.ST01);
     }
@@ -98,4 +100,10 @@ public class UserService {
     public void updateMember(String userId, String name, String email, Status status, UserType userType) {
         userDao.updateUser(userId, name, email, status, userType);
     }
+
+    public void deleteUserById(String userId) {
+        userDao.deleteUser(userId);
+    }
+
+
 }

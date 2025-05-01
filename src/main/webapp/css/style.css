@@ -9,7 +9,8 @@ body {
 /*============================= 헤더 상단 링크 영역 =============================*/
 .header-container {
     background-color: #F0F0F0;
-    padding: 5px;
+    padding-top: 3px;
+    padding-bottom: 2px;
     display: flex;
     justify-content: flex-end;
 }
@@ -22,7 +23,7 @@ body {
     display: inline-block;
     padding: 8px 10px 4px;
     font-size: 12px;
-    color: #606060;
+    color: #333;
     text-decoration: none;
 }
 
@@ -42,25 +43,29 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 60px;
+    gap: 30px;
 }
 
-h1 {
-    font-size: 28px;
-    margin: 0;
-    color: #333;
+.logo {
+    display: inline-block;
 }
 
+.logo-img {
+    padding-top: 10px;
+    height: 41px;
+    width: 174px;
+    object-fit: contain;
+    aspect-ratio: auto 174 / 41;
+}
 
 /*============================= 검색 폼 =============================*/
 .styled-search-form {
     display: flex;
     align-items: center;
     border: 2px solid #4285f4;
-    border-radius: 4px;
-    width: 600px;
-    max-width: 90%;
-    height: 40px;
+    margin-right: 10px;
+    width: 518px;
+    height: 37px;
     background-color: white;
     overflow: visible;
     position: relative;
@@ -123,8 +128,7 @@ h1 {
     outline: none;
 }
 
-/* 버튼들 */
-.voice-button,
+/* 버튼 */
 .search-button {
     background: none;
     border: none;
@@ -132,16 +136,14 @@ h1 {
     font-size: 16px;
     cursor: pointer;
     color: #666;
-    height: 100%;
     display: flex;
     align-items: center;
 }
 
-.voice-button:hover,
-.search-button:hover {
-    background-color: #f2f2f2;
-}
-
+.search-icon-img{
+     width: 25px;
+     height: 25px;
+ }
 
 /*============================= 마이페이지/장바구니 =============================*/
 .utility-links {
@@ -151,11 +153,39 @@ h1 {
     color: #333;
 }
 
-.utility-links > div {
-    cursor: pointer;
+.utility-links > a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
 }
 
-.utility-links > div:hover {
+.utility-links .icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 15px;
+}
+
+.utility-links .mypage-icon-img {
+    width: 26px;
+    height: 30px;
+    margin-bottom: 4px;
+}
+
+.utility-links .cart-icon-img {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 4px;
+}
+
+.utility-links .text {
+    font-size: 11px;
+    color: #333;
+}
+
+.utility-links > a:hover .text {
     text-decoration: underline;
 }
 

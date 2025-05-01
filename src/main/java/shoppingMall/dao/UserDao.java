@@ -190,6 +190,47 @@ public class UserDao {
         return users;
     }
 
+    public List<User> findWithdrawalUsers() {
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT * FROM tb_user WHERE st_status = 'ST02'";
+
+        try (Connection conn = JdbcDriver.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                User user = new User();
+                user.setUserId(rs.getString("ID_USER"));
+                user.setUserName(rs.getString("NM_USER"));
+                user.setPassword(rs.getString("NM_PASWD"));
+                user.setEncPassword(rs.getString("NM_ENC_PASWD"));
+                user.setMobileNo(rs.getString("NO_MOBILE"));
+                user.setEmail(rs.getString("NM_EMAIL"));
+
+                String statusStr = rs.getString("ST_STATUS");
+                if (statusStr != null) {
+                    user.setStatus(Status.valueOf(statusStr));
+                }
+
+                String userTypeStr = rs.getString("CD_USER_TYPE");
+                if (userTypeStr != null) {
+                    user.setUserType(UserType.valueOf(userTypeStr));
+                }
+
+                user.setRegisterNo(rs.getString("NO_REGISTER"));
+
+                Timestamp timestamp = rs.getTimestamp("DA_FIRST_DATE");
+                if (timestamp != null) {
+                    user.setFirstDate(timestamp.toLocalDateTime());
+                }
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
     public void updateStatus(String userId, Status newStatus) {
         String sql = "UPDATE tb_user SET ST_STATUS = ? WHERE ID_USER = ?";
         try (Connection conn = JdbcDriver.getConnection();
@@ -219,4 +260,6 @@ public class UserDao {
             e.printStackTrace();
         }
     }
+
+
 }

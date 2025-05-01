@@ -18,8 +18,10 @@ public class AdminPageServlet extends HttpServlet {
     protected  void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<User> allUsers = userService.getAllUsers();
         List<User> allPendingUsers = userService.getPendingUsers();
+        List<User> withdrawalUsers = userService.getWithdrawalUsers();
         request.setAttribute("allUsers", allUsers);
         request.setAttribute("allPendingUsers", allPendingUsers);
+        request.setAttribute("withdrawalUsers", withdrawalUsers);
         request.getRequestDispatcher("/admin/adminPage.jsp").forward(request, response);
     }
     @Override

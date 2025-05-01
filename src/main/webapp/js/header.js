@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("열려있는가 : "+isDropdownOpen)
         dropdown.style.display = isDropdownOpen ? "block" : "none";
         arrow.src = isDropdownOpen
-            ? contextPath + "/images/upArrow.png"
-            : contextPath + "/images/downArrow.png";
+            ? contextPath + "/images/up-arrow.png"
+            : contextPath + "/images/down-arrow.png";
     });
 
     // 항목 선택
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             isDropdownOpen = false;
             dropdown.style.display = "none";
-            arrow.src = contextPath + "/images/downArrow.png";
+            arrow.src = contextPath + "/images/down-arrow.png";
 
             e.stopPropagation();
         });
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("click", (e) => {
         if (!selectWrapper.contains(e.target)) {
             dropdown.style.display = "none";
-            arrow.src = contextPath + "/images/downArrow.png";
+            arrow.src = contextPath + "/images/down-arrow.png";
             isDropdownOpen = false;
         }
     });
