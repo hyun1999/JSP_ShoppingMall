@@ -74,10 +74,27 @@
                 <input type="hidden" name="userId" value="<%= user.getUserId() %>" />
                 <p><strong>아이디:</strong> <%= user.getUserId() %></p>
                 <label>이름:
-                    <input type="text" name="name" value="<%= user.getUserName() %>" />
+                    <input type="text" name="name" value="<%= user.getUserName() %>" readonly/>
                 </label>
                 <label>이메일:
-                    <input type="email" name="email" value="<%= user.getEmail() %>" />
+                    <input type="email" name="email" value="<%= user.getEmail() %>" readonly/>
+                </label>
+                <%
+                    String mobile = user.getMobileNo();
+                    String formattedMobile = "";
+
+                    if (mobile != null && mobile.length() == 11) {
+                        if ("Admn".equals(user.getUserType().name())) {
+                            formattedMobile = "010-XXXX-XXXX";
+                        } else {
+                            formattedMobile = "010-" + mobile.substring(3, 7) + "-" + mobile.substring(7);
+                        }
+                    } else {
+                        formattedMobile = mobile;
+                    }
+                %>
+                <label>전화번호:
+                    <input type="text" name="mobile" value="<%= formattedMobile %>" readonly/>
                 </label>
                 <label>상태:
                     <select name="status">
