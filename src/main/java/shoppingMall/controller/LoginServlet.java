@@ -27,10 +27,8 @@ public class LoginServlet extends HttpServlet {
 
         if (userService.login(userId, password)) {
             UserTypeDto userByUserId = userService.getUserByUserId(userId);
-            System.out.println("1차");
             // ST00(승인 대기 상태)인 경우 로그인 거부
             if (userByUserId.getUserStatus().equals(Status.ST00)) {
-                System.out.println("2차");
 
                 request.setAttribute("error", "관리자 승인 후 로그인 가능합니다.");
                 request.getRequestDispatcher("/user/login.jsp").forward(request, response);
@@ -39,13 +37,10 @@ public class LoginServlet extends HttpServlet {
 
             // ST02(승인 대기 상태)인 경우 로그인 거부
             if (userByUserId.getUserStatus().equals(Status.ST02)) {
-                System.out.println("3차");
-
                 request.setAttribute("error", "일시정지 상태입니다. 관리자에게 요청하세요.");
                 request.getRequestDispatcher("/user/login.jsp").forward(request, response);
                 return;
             }
-            System.out.println("4차");
 
             HttpSession session = request.getSession(true);
             session.setAttribute("userId", userByUserId.getUserId());
