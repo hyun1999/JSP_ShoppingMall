@@ -1,64 +1,265 @@
-/* 전체 페이지 설정 */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: dotum, sans-serif;
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+    background-color: #fff;
+}
+
+.container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+    align-items: start;
+    padding-top: 60px;
 }
 
-.login-container {
-    background-color: white;
-    border-radius: 8px;
-    padding: 30px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+.container-bottom {
+    padding-top: 0;
 }
 
-h2 {
+.login-wrapper {
+    width: 100%;
+    max-width: 547px;
     text-align: center;
-    color: #333;
 }
 
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
+.logo {
     display: block;
+    margin: 0 auto 20px;
+    width: 43.83%;
+    max-width: 195px;
+}
+
+.logo-img {
+    width: 100%;
+    height: auto;
+}
+
+.login-tabs {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
     font-size: 14px;
-    color: #555;
+    color: #888;
 }
 
-.form-group input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
+.login-tabs > span {
+    padding: 14px 30px;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #45a049;
+.login-tabs .active {
+    color: #3366ff;
+    font-weight: bold;
+    border-bottom: 2.5px solid #3366ff;
+}
+
+.tab-under-line {
+    width: 100%;
+    height: 1.2px;
+    background: #DFE3E7;
+    margin-bottom: 20px;
+}
+
+.login-form {
+    padding: 0 30px 30px 30px;
+}
+
+.input-group {
+    display: flex;
+    margin-bottom: 15px;
+    border: 1px solid #D2D2D2;
+    background-color: #fff;
+}
+
+/* 이메일 입력 유효한 경우 */
+.input-group.valid {
+    border-bottom: 2px solid #3366FF;
+}
+
+/* 이메일 입력 오류인 경우 */
+.input-group.invalid {
+    border-bottom: 2px solid red;
+}
+
+/* 이메일 에러 메시지 */
+.email-error {
+    color: red;
+    font-size: 13px;
+    text-align: left;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    display: none;
+}
+
+/* 비밀번호 입력 오류 */
+.input-group.invalid {
+    border-bottom: 2px solid red;
+}
+
+/* 비밀번호 에러 메시지 */
+.password-error {
+    color: red;
+    font-size: 13px;
+    text-align: left;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    display: none;
+}
+
+/* 로그인 에러 메시지 */
+.login-error-message {
+    color: red;
+    font-size: 13px;
+    text-align: left;
+    margin: -10px 0 10px 10px;
+}
+
+.input-left {
+    background-color: #FAFAFA;
+    padding: 14px;
+    border-right: 1px solid #D2D2D2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.input-center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    background-color: #fff;
+}
+
+.custom-input {
+    flex: 1;
+    border: none;
+    padding: 12px 0;
+    font-size: 16px;
+    outline: none;
+    background: transparent;
+}
+
+.input-right {
+    background-color: #fff;
+    padding: 0 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.clear-icon {
+    width: 19px;
+    height: 19px;
+    cursor: pointer;
+    opacity: 1;
+}
+
+.custom-checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    margin-bottom: 20px;
+    justify-content: space-between;
+}
+
+.custom-checkbox-label {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    color: #333;
+    gap: 1px;
+    cursor: pointer;
+}
+
+.custom-checkbox-input {
+    display: none;
+}
+
+.custom-checkbox-box {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    display: inline-block;
+    margin-right: 8px;
+    position: relative;
+    background-color: #fff;
+}
+
+.custom-checkbox-input:checked + .custom-checkbox-box {
+    background-color: #3366FF;
+    border-color: #3366FF;
+}
+
+.custom-checkbox-input:checked + .custom-checkbox-box::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 0px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.find-id-password-with-icon {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    text-decoration: none;
+    color: #2184EC;
+}
+
+.find-icon {
+    width: 10px;
+    height: 10px;
+}
+
+.login-btn, .signup-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.login-btn {
+    background-color: #3366ff;
+    color: white;
+    border: none;
+    margin-bottom: 13px;
+}
+
+.signup-btn {
+    background-color: white;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.btn-split {
+    width: 100%;
+    height: 1px;
+    background: #CAD2D9;
+    margin-bottom: 20px;
 }
 
 .error-message {
     color: red;
-    font-size: 14px;
     margin-top: 10px;
-    text-align: center;
+    font-size: 14px;
+}
+
+.input-group.valid .input-center {
+    background-color: #E7F0FE;
 }
