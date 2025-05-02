@@ -80,7 +80,7 @@ public class UserService {
     }
 
     public void stopUser(String userId) {
-        userDao.updateStatus(userId, Status.ST02);
+        userDao.updateStatus(userId, Status.ST03);
     }
 
     public List<User> getAllUsers() {
