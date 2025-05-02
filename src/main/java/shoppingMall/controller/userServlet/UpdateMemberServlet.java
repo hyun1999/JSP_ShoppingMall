@@ -1,4 +1,4 @@
-package shoppingMall.controller;
+package shoppingMall.controller.userServlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
