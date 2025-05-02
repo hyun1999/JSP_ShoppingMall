@@ -192,7 +192,7 @@ public class UserDao {
 
     public List<User> findWithdrawalUsers() {
         List<User> users = new ArrayList<>();
-        String sql = "SELECT * FROM tb_user WHERE st_status = 'ST02'";
+        String sql = "SELECT * FROM tb_user WHERE st_status = 'ST03'";
 
         try (Connection conn = JdbcDriver.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
