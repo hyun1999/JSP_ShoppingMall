@@ -17,7 +17,7 @@ public class FrontControllerServlet extends HttpServlet {
         String uri = request.getRequestURI();
         String contextPath = request.getContextPath();
         String path = uri.substring(contextPath.length());
-
+        System.out.println(path);
         String viewPage = null;
 
         if (path.equals("/home.do")) {

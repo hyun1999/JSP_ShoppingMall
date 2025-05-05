@@ -1,24 +1,26 @@
 package shoppingMall.domain;
 
+import shoppingMall.domain.enums.YnFlag;
+
 import java.time.LocalDateTime;
 
 public class Category {
     private int categoryId;               // nb_category
-    private int parentCategoryId;        // nb_parent_category
+    private Integer parentCategoryId;        // nb_parent_category
     private String name;                 // nm_category
     private String fullCategoryName;     // nm_full_category
     private String description;          // nm_explain
-    private int level;                   // cn_level
+    private Integer level;                   // cn_level
     private int order;                   // cn_order
-    private boolean used;                // yn_use
-    private boolean deleted;             // yn_delete
+    private YnFlag used;    // yn_use
+    private YnFlag deleted; // yn_delete
     private String createdBy;           // no_register
     private LocalDateTime createdAt;    // da_first_date
 
     public Category() {
     }
 
-    public Category(int categoryId, int parentCategoryId, String name, String fullCategoryName, String description, int level, int order, boolean used, boolean deleted, String createdBy, LocalDateTime createdAt) {
+    public Category(int categoryId, Integer parentCategoryId, String name, String fullCategoryName, String description, Integer level, int order, YnFlag used, YnFlag deleted, String createdBy, LocalDateTime createdAt) {
         this.categoryId = categoryId;
         this.parentCategoryId = parentCategoryId;
         this.name = name;
@@ -40,11 +42,11 @@ public class Category {
         this.categoryId = categoryId;
     }
 
-    public int getParentCategoryId() {
+    public Integer getParentCategoryId() {
         return parentCategoryId;
     }
 
-    public void setParentCategoryId(int parentCategoryId) {
+    public void setParentCategoryId(Integer parentCategoryId) {
         this.parentCategoryId = parentCategoryId;
     }
 
@@ -72,11 +74,11 @@ public class Category {
         this.description = description;
     }
 
-    public int getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 
@@ -88,19 +90,19 @@ public class Category {
         this.order = order;
     }
 
-    public boolean isUsed() {
+    public YnFlag getUsed() {
         return used;
     }
 
-    public void setUsed(boolean used) {
+    public void setUsed(YnFlag used) {
         this.used = used;
     }
 
-    public boolean isDeleted() {
+    public YnFlag getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(YnFlag deleted) {
         this.deleted = deleted;
     }
 
