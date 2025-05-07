@@ -16,7 +16,7 @@
             <img src="<%= request.getContextPath() %>/images/logo.jpg" alt="Coupang 로고" class="logo-img">
         </a>
         <h2 class="form-title">회원정보를 입력해주세요</h2>
-        <form action="register" method="post" class="register-form">
+        <form action="register.do" method="post" class="register-form">
             <!-- 이메일 입력 -->
             <div class="input-group">
                 <div class="input-left">

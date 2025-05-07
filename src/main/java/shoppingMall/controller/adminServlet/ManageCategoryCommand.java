@@ -19,9 +19,13 @@ public class ManageCategoryCommand implements Command {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
         if(request.getMethod().equals("GET")){
+            List<Category> categoryList = categoryService.getAllCategories();
+            request.setAttribute("categoryList", categoryList);
             request.getRequestDispatcher("/admin/categoryPage.jsp").forward(request, response);
+            return; // 아래 코드 실행 방지
         }
         if ("create".equals(action)) {
+            System.out.println(request.getParameter("name"));
             // 카테고리 추가
             Category category = new Category();
             category.setName(request.getParameter("name"));
@@ -42,13 +46,16 @@ public class ManageCategoryCommand implements Command {
             categoryService.createCategory(category);
 
         } else if ("update".equals(action)) {
+
             // 카테고리 수정
             int id = Integer.parseInt(request.getParameter("categoryId"));
+
             Category category = categoryService.getCategoryById(id);
             category.setName(request.getParameter("name"));
             category.setDescription(request.getParameter("description"));
 
             String parentIdStr = request.getParameter("parentId");
+            System.out.println("부모 ID: "+parentIdStr);
             if (parentIdStr != null && !parentIdStr.isEmpty()) {
                 category.setParentCategoryId(Integer.parseInt(parentIdStr));
             } else {
@@ -61,6 +68,8 @@ public class ManageCategoryCommand implements Command {
             // 카테고리 삭제
             int id = Integer.parseInt(request.getParameter("categoryId"));
             categoryService.deleteCategory(id);
+            response.sendRedirect("manageCategory.do");
+            return;
         }
 
         // 카테고리 목록을 request에 담아서 categoryPage.jsp로 포워드
@@ -68,6 +77,7 @@ public class ManageCategoryCommand implements Command {
         request.setAttribute("categoryList", categoryList);
 
         // categoryPage.jsp로 포워드
-        request.getRequestDispatcher("/views/categoryPage.jsp").forward(request, response);
+//        response.sendRedirect("manageProduct.do");
+        request.getRequestDispatcher("/admin/categoryPage.jsp").forward(request, response);
     }
 }

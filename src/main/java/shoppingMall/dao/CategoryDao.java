@@ -64,7 +64,7 @@ public class CategoryDao {
     public boolean update(Category category) {
         String sql = "UPDATE tb_category SET " +
                 "nm_category = ?, nm_full_category = ?, nm_explain = ?, " +
-                "cn_level = ?, cn_order = ?, yn_use = ? " +
+                "cn_level = ?, cn_order = ?, yn_use = ?, nb_parent_category = ? " +
                 "WHERE nb_category = ?";
 
         try (Connection conn = JdbcDriver.getConnection();
@@ -76,7 +76,8 @@ public class CategoryDao {
             ps.setObject(4, category.getLevel(), Types.INTEGER);
             ps.setInt(5, category.getOrder());
             ps.setString(6, category.getUsed().getDbValue());
-            ps.setInt(7, category.getCategoryId());
+            ps.setInt(7,category.getParentCategoryId());
+            ps.setInt(8, category.getCategoryId());
 
             return ps.executeUpdate() > 0;
 

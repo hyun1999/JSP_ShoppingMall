@@ -22,11 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (parent) {
                     const grandParent = allCategories.find(c => c.id === parent.parentId);
                     if (grandParent) {
-                        document.getElementById("level1").value = grandParent.id;
+                        document.getElementById("level1").value = grandParent.id.toString();
                         renderLevel2();
-                        document.getElementById("level2").value = parent.id;
+                        document.getElementById("level2").value = parent.id.toString();
                     } else {
-                        document.getElementById("level1").value = parent.id;
+                        document.getElementById("level1").value = parent.id.toString();
                         renderLevel2();
                     }
                 }
@@ -57,13 +57,16 @@ function renderLevel2() {
 
 // 계층별 parentId 설정
 function setCorrectParentId(event) {
-    const level2 = document.getElementById("level2").value;
-    const level1 = document.getElementById("level1").value;
+    const level2Value = document.getElementById("level2").value;
+    const level1Value = document.getElementById("level1").value;
+
+    const level2 = parseInt(level2Value);
+    const level1 = parseInt(level1Value);
 
     let parentId = 0;
-    if (level2) {
+    if (!isNaN(level2)) {
         parentId = level2;
-    } else if (level1) {
+    } else if (!isNaN(level1)) {
         parentId = level1;
     }
 
