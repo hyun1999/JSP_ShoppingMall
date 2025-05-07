@@ -72,12 +72,9 @@ public class ManageCategoryCommand implements Command {
             return;
         }
 
-        // 카테고리 목록을 request에 담아서 categoryPage.jsp로 포워드
         List<Category> categoryList = categoryService.getAllCategories();
         request.setAttribute("categoryList", categoryList);
 
-        // categoryPage.jsp로 포워드
-//        response.sendRedirect("manageProduct.do");
         request.getRequestDispatcher("/admin/categoryPage.jsp").forward(request, response);
     }
 }

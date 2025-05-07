@@ -8,6 +8,7 @@
 </head>
 <body>
 <div class="container">
+    <a href="adminPage.do" class="header-link">관리자페이지</a> | <a href="manageCategory.do" class="header-link">카테고리 관리</a> | <a href="manageProduct.do" class="header-link">상품 관리</a>
     <h2>${empty selectedProduct ? "상품 등록" : "상품 수정"}</h2>
 
     <form action="manageProduct.do" method="post" enctype="multipart/form-data" id="productForm">

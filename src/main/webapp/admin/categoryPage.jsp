@@ -13,6 +13,7 @@
 </head>
 <body>
 <div class="container">
+    <a href="adminPage.do" class="header-link">관리자페이지</a> | <a href="manageCategory.do" class="header-link">카테고리 관리</a> | <a href="manageProduct.do" class="header-link">상품 관리</a>
     <h2>카테고리 관리</h2>
     <form action="manageCategory.do" method="post" id="categoryForm" onsubmit="setCorrectParentId(event)">
         <input type="hidden" name="action" value="create" id="actionInput">
