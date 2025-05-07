@@ -1,10 +1,9 @@
 package shoppingMall.controller.adminServlet;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import shoppingMall.controller.Command;
 import shoppingMall.domain.Category;
 import shoppingMall.domain.enums.YnFlag;
 import shoppingMall.service.CategoryService;
@@ -13,21 +12,15 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@WebServlet("/admin/manageCategory")
-public class ManageCategoryServlet extends HttpServlet {
+public class ManageCategoryCommand implements Command {
     private final CategoryService categoryService = new CategoryService();
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Category> categories = categoryService.getAllCategories();
-        request.setAttribute("categories", categories);
-        request.getRequestDispatcher("/admin/categoryPage.jsp").forward(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-
+        if(request.getMethod().equals("GET")){
+            request.getRequestDispatcher("/admin/categoryPage.jsp").forward(request, response);
+        }
         if ("create".equals(action)) {
             // 카테고리 추가
             Category category = new Category();
@@ -36,10 +29,9 @@ public class ManageCategoryServlet extends HttpServlet {
 
             String parentIdStr = request.getParameter("parentId");
             if (parentIdStr != null && !parentIdStr.isEmpty()) {
-                System.out.println("parentId :"+parentIdStr);
                 category.setParentCategoryId(Integer.parseInt(parentIdStr));
             } else {
-                category.setParentCategoryId(0);  // 부모 카테고리가 없는 경우
+                category.setParentCategoryId(0);
             }
 
             category.setUsed(YnFlag.YES);
@@ -71,6 +63,11 @@ public class ManageCategoryServlet extends HttpServlet {
             categoryService.deleteCategory(id);
         }
 
-        response.sendRedirect(request.getContextPath() + "/admin/manageCategory");
+        // 카테고리 목록을 request에 담아서 categoryPage.jsp로 포워드
+        List<Category> categoryList = categoryService.getAllCategories();
+        request.setAttribute("categoryList", categoryList);
+
+        // categoryPage.jsp로 포워드
+        request.getRequestDispatcher("/views/categoryPage.jsp").forward(request, response);
     }
 }

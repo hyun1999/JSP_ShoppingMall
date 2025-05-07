@@ -27,7 +27,7 @@
 <div class="container container-bottom">
   <div class="login-wrapper">
 
-    <form action="login" method="post" class="login-form tab-content" id="tab-email">
+    <form action="login.do" method="post" class="login-form tab-content" id="tab-email">
       <div class="input-group email-group">
         <div class="input-left">
           <img src="<%= request.getContextPath() %>/images/email-icon.png" alt="이메일 아이콘" class="input-icon">

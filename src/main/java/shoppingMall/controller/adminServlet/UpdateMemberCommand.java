@@ -1,20 +1,20 @@
-package shoppingMall.controller.adminServlet;
+package shoppingMall.controller.adminServlet.command;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import shoppingMall.controller.Command;
 import shoppingMall.domain.enums.Status;
 import shoppingMall.domain.enums.UserType;
 import shoppingMall.service.UserService;
 
 import java.io.IOException;
 
-@WebServlet("/admin/updateMember")
-public class UpdateMemberServlet extends HttpServlet {
+public class UpdateMemberCommand implements Command {
     private final UserService userService = new UserService();
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userId = request.getParameter("userId");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
