@@ -28,6 +28,7 @@ public class CategoryService {
             category.setParentCategoryId(0);
         }
         categoryDao.update(category);
+        System.out.println("update완료");
     }
 
     // 카테고리 삭제

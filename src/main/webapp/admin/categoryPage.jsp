@@ -2,7 +2,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="shoppingMall.domain.Category" %>
 <%
-    List<Category> categories = (List<Category>) request.getAttribute("categories");
+    List<Category> categories = (List<Category>) request.getAttribute("categoryList");
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -14,7 +14,7 @@
 <body>
 <div class="container">
     <h2>카테고리 관리</h2>
-    <form action="${pageContext.request.contextPath}/admin/manageCategory" method="post" id="categoryForm" onsubmit="setCorrectParentId(event)">
+    <form action="manageCategory.do" method="post" id="categoryForm" onsubmit="setCorrectParentId(event)">
         <input type="hidden" name="action" value="create" id="actionInput">
         <input type="hidden" name="categoryId" id="categoryId">
         <input type="hidden" name="parentId" id="parentId">
@@ -78,7 +78,7 @@
                 </button>
             </td>
             <td>
-                <form method="post" action="manageCategory" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                <form method="post" action="manageCategory.do" onsubmit="return confirm('정말 삭제하시겠습니까?');">
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="categoryId" value="<%= category.getCategoryId() %>">
                     <button type="submit" class="delete-btn">삭제</button>
