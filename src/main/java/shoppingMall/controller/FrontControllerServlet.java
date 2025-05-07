@@ -17,7 +17,7 @@ public class FrontControllerServlet extends HttpServlet {
         String uri = request.getRequestURI();
         String contextPath = request.getContextPath();
         String path = uri.substring(contextPath.length());
-
+        System.out.println(path);
         String viewPage = null;
 
         if (path.equals("/home.do")) {
@@ -52,6 +52,9 @@ public class FrontControllerServlet extends HttpServlet {
             dispatcher.forward(request, response);
         }else if (path.equals("/deleteMember.do")) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/deleteMember");
+            dispatcher.forward(request, response);
+        }else if (path.equals("/manageCategory.do")) {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/admin/manageCategory");
             dispatcher.forward(request, response);
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);

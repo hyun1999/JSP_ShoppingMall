@@ -1,24 +1,21 @@
-package shoppingMall.controller.userServlet;
+package shoppingMall.controller.adminServlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import shoppingMall.service.UserService;
 
 import java.io.IOException;
 
-@WebServlet("/admin/approveUser")
-public class ApproveUserServlet extends HttpServlet {
+@WebServlet("/admin/deleteMember")
+public class DeleteApproveServlet extends HttpServlet {
     private final UserService userService = new UserService();
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userId = request.getParameter("userId");
-
-        if (userId != null && !userId.isEmpty()) {
-            userService.approveUser(userId); // ST00 → ST01 로 상태 변경
-        }
-
+        userService.deleteUserById(userId);
         response.sendRedirect(request.getContextPath() + "/adminPage.do");
     }
 }
