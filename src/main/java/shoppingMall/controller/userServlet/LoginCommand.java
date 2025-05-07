@@ -1,11 +1,10 @@
 package shoppingMall.controller.userServlet;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import shoppingMall.controller.Command;
 import shoppingMall.domain.enums.Status;
 import shoppingMall.domain.enums.UserType;
 import shoppingMall.dto.UserTypeDto;
@@ -13,15 +12,11 @@ import shoppingMall.service.UserService;
 
 import java.io.IOException;
 
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
-    private UserService userService = new UserService();
+public class LoginCommand implements Command {
+    private final UserService userService = new UserService();
+
     @Override
-    protected  void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/user/login.jsp").forward(request, response);
-    }
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userId = request.getParameter("userId");
         String password = request.getParameter("password");
 
@@ -29,7 +24,6 @@ public class LoginServlet extends HttpServlet {
             UserTypeDto userByUserId = userService.getUserByUserId(userId);
             // ST00(승인 대기 상태)인 경우 로그인 거부
             if (userByUserId.getUserStatus().equals(Status.ST00)) {
-
                 request.setAttribute("error", "관리자 승인 후 로그인 가능합니다.");
                 request.getRequestDispatcher("/user/login.jsp").forward(request, response);
                 return;

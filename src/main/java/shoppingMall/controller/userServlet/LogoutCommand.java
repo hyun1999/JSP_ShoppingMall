@@ -1,23 +1,23 @@
-package shoppingMall.controller.userServlet;
+package shoppingMall.controller.userServlet.command;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import shoppingMall.controller.Command;
 
 import java.io.IOException;
 
-@WebServlet("/logout")
-public class LogoutServlet extends HttpServlet {
+public class LogoutCommand implements Command {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 세션 무효화
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();
         }
+
+        // 로그아웃 후 메인 페이지로 리다이렉션
         response.sendRedirect(request.getContextPath() + "/index.jsp");
     }
 }

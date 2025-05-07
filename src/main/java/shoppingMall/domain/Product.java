@@ -9,7 +9,7 @@ public class Product {
     private String idFile;               // 컨텐츠 식별 ID
     private String dtStartDate;          // 판매 시작 일자 (YYYYMMDD)
     private String dtEndDate;            // 판매 종료 일자 (YYYYMMDD)
-    private Integer qtCustomer;          // 소비자 가격
+    private Integer qtCustomerPrice;          // 소비자 가격
     private Integer qtSalePrice;         // 판매 가격
     private Integer qtStock;             // 재고 수량
     private Integer qtDeliveryFee;       // 배송비 금액
@@ -19,14 +19,14 @@ public class Product {
     public Product() {
     }
 
-    public Product(String noProduct, String nmProduct, String nmDetailExplain, String idFile, String dtStartDate, String dtEndDate, Integer qtCustomer, Integer qtSalePrice, Integer qtStock, Integer qtDeliveryFee, String noRegister, LocalDateTime daFirstDate) {
+    public Product(String noProduct, String nmProduct, String nmDetailExplain, String idFile, String dtStartDate, String dtEndDate, Integer qtCustomerPrice, Integer qtSalePrice, Integer qtStock, Integer qtDeliveryFee, String noRegister, LocalDateTime daFirstDate) {
         this.noProduct = noProduct;
         this.nmProduct = nmProduct;
         this.nmDetailExplain = nmDetailExplain;
         this.idFile = idFile;
         this.dtStartDate = dtStartDate;
         this.dtEndDate = dtEndDate;
-        this.qtCustomer = qtCustomer;
+        this.qtCustomerPrice = qtCustomerPrice;
         this.qtSalePrice = qtSalePrice;
         this.qtStock = qtStock;
         this.qtDeliveryFee = qtDeliveryFee;
@@ -82,12 +82,12 @@ public class Product {
         this.dtEndDate = dtEndDate;
     }
 
-    public Integer getQtCustomer() {
-        return qtCustomer;
+    public Integer getQtCustomerPrice() {
+        return qtCustomerPrice;
     }
 
-    public void setQtCustomer(Integer qtCustomer) {
-        this.qtCustomer = qtCustomer;
+    public void setQtCustomerPrice(Integer qtCustomerPrice) {
+        this.qtCustomerPrice = qtCustomerPrice;
     }
 
     public Integer getQtSalePrice() {
