@@ -7,8 +7,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import shoppingMall.controller.Command;
 import shoppingMall.domain.Product;
+import shoppingMall.service.CategoryProductMappingService;
 import shoppingMall.service.ProductService;
 import shoppingMall.service.CategoryService;
+import shoppingMall.utils.JdbcDriver;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +22,7 @@ import java.util.UUID;
 public class ManageProductCommand implements Command {
     private final ProductService productService = new ProductService();
     private final CategoryService categoryService = new CategoryService();
+    private final CategoryProductMappingService mappingService = new CategoryProductMappingService();
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -72,8 +75,8 @@ public class ManageProductCommand implements Command {
         if (filePart != null && filePart.getSize() > 0) {
             String originalFileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
             String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-
             String savedFileName = UUID.randomUUID().toString().replace("-", "").substring(0, 20) + fileExtension;
+
             if (savedFileName.length() > 30) {
                 savedFileName = savedFileName.substring(0, 30);
             }
@@ -88,12 +91,36 @@ public class ManageProductCommand implements Command {
             product.setIdFile(savedFileName);
         }
 
-        // 고유 상품코드 생성
         product.setNoProduct("P" + System.currentTimeMillis());
         product.setNoRegister("admin");
         product.setDaFirstDate(LocalDateTime.now());
 
-        productService.createProduct(product);
+        String categoryIdStr = request.getParameter("categoryId");
+
+        // === 트랜잭션 시작 ===
+        java.sql.Connection conn = null;
+        try {
+            conn = JdbcDriver.getConnection();
+            conn.setAutoCommit(false); // 트랜잭션 시작
+
+            productService.createProduct(product, conn);
+
+            if (categoryIdStr != null && !categoryIdStr.isEmpty()) {
+                int categoryId = Integer.parseInt(categoryIdStr);
+                mappingService.createMapping(categoryId, product.getNoProduct(), "admin", conn);
+            }
+
+            conn.commit(); // 성공 시 커밋
+        } catch (Exception e) {
+            if (conn != null) {
+                try { conn.rollback(); } catch (Exception rollbackEx) {}
+            }
+            throw new ServletException("상품 등록 트랜잭션 실패", e);
+        } finally {
+            if (conn != null) {
+                try { conn.close(); } catch (Exception closeEx) {}
+            }
+        }
     }
 
     private void updateProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {

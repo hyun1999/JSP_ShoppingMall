@@ -40,9 +40,12 @@
         <input type="number" name="qtDeliveryFee" value="${selectedProduct.qtDeliveryFee}" />
 
         <label>카테고리</label>
-        <select name="nbCategory">
-            <c:forEach var="cat" items="${categoryList}">
-<%--                <option value="${cat.categoryId}" <c:if test="${cat.categoryId == selectedProduct.nbCategory}">selected</c:if>>${cat.name}</option>--%>
+        <select name="categoryId" id="categoryId" required>
+            <option value="">카테고리 선택</option>
+            <c:forEach var="category" items="${categoryList}">
+                <option value="${category.categoryId}">
+                        ${category.name}
+                </option>
             </c:forEach>
         </select>
 

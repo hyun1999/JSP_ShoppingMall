@@ -3,6 +3,8 @@ package shoppingMall.service;
 import shoppingMall.dao.ProductDao;
 import shoppingMall.domain.Product;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 public class ProductService {
@@ -13,8 +15,8 @@ public class ProductService {
         return productDao.findAllProducts();
     }
 
-    public void createProduct(Product product) {
-        productDao.insertProduct(product);
+    public void createProduct(Product product, Connection conn) throws SQLException {
+        productDao.insertProduct(product, conn);
     }
 
     public void updateProduct(Product product) {

@@ -22,7 +22,7 @@ public class ManageCategoryCommand implements Command {
             List<Category> categoryList = categoryService.getAllCategories();
             request.setAttribute("categoryList", categoryList);
             request.getRequestDispatcher("/admin/categoryPage.jsp").forward(request, response);
-            return; // 아래 코드 실행 방지
+            return;
         }
         if ("create".equals(action)) {
             System.out.println(request.getParameter("name"));
