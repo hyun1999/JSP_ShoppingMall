@@ -27,7 +27,7 @@ public class FrontControllerServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-//        routeMap.put("/home.do", new HomeCommand());
+        routeMap.put("/home.do", new HomeCommand());
         routeMap.put("/register.do", new RegisterCommand());
         routeMap.put("/login.do", new LoginCommand());
         routeMap.put("/logout.do", new LogoutCommand());

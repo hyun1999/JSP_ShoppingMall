@@ -31,14 +31,13 @@ public class ProductDao {
     }
 
     // 상품 등록
-    public void insertProduct(Product product) {
+    public void insertProduct(Product product, Connection conn) throws SQLException {
         String sql = "INSERT INTO tb_product " +
-                "(no_product, nm_product, nm_detail_explain, id_file, dt_start_date, dt_end_date, qt_customer_price, qt_sale_price, qt_stock, qt_delivery_fee, no_register, da_first_date) " +
+                "(no_product, nm_product, nm_detail_explain, id_file, dt_start_date, dt_end_date, " +
+                "qt_customer_price, qt_sale_price, qt_stock, qt_delivery_fee, no_register, da_first_date) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = JdbcDriver.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, product.getNoProduct());
             ps.setString(2, product.getNmProduct());
             ps.setString(3, product.getNmDetailExplain());
@@ -53,11 +52,9 @@ public class ProductDao {
             ps.setTimestamp(12, Timestamp.valueOf(product.getDaFirstDate()));
 
             ps.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
+
 
     // 상품 삭제
     public void deleteProduct(String noProduct) {

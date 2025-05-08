@@ -8,6 +8,7 @@
 </head>
 <body>
 <div class="container">
+    <a href="adminPage.do" class="header-link">관리자페이지</a> | <a href="manageCategory.do" class="header-link">카테고리 관리</a> | <a href="manageProduct.do" class="header-link">상품 관리</a>
     <h2>${empty selectedProduct ? "상품 등록" : "상품 수정"}</h2>
 
     <form action="manageProduct.do" method="post" enctype="multipart/form-data" id="productForm">
@@ -39,9 +40,12 @@
         <input type="number" name="qtDeliveryFee" value="${selectedProduct.qtDeliveryFee}" />
 
         <label>카테고리</label>
-        <select name="nbCategory">
-            <c:forEach var="cat" items="${categoryList}">
-<%--                <option value="${cat.categoryId}" <c:if test="${cat.categoryId == selectedProduct.nbCategory}">selected</c:if>>${cat.name}</option>--%>
+        <select name="categoryId" id="categoryId" required>
+            <option value="">카테고리 선택</option>
+            <c:forEach var="category" items="${categoryList}">
+                <option value="${category.categoryId}">
+                        ${category.name}
+                </option>
             </c:forEach>
         </select>
 
