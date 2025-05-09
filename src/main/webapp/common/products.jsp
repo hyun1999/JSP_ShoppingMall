@@ -1,55 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<meta charset="UTF-8">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <section class="products">
-  <div class="product">
-    <img src="images/product1.jpg" alt="상품1">
-    <p>상품명 1</p>
-    <p>₩10,000</p>
-  </div>
-  <div class="product">
-    <img src="images/product2.jpg" alt="상품2">
-    <p>상품명 2</p>
-    <p>₩20,000</p>
-  </div>
-  <div class="product">
-    <img src="images/product3.jpg" alt="상품3">
-    <p>상품명 3</p>
-    <p>₩30,000</p>
-  </div>
-  <div class="product">
-    <img src="images/product3.jpg" alt="상품3">
-    <p>상품명 3</p>
-    <p>₩30,000</p>
-  </div>
-  <div class="product">
-    <img src="images/product3.jpg" alt="상품3">
-    <p>상품명 3</p>
-    <p>₩30,000</p>
-  </div>
-  <div class="product">
-    <img src="images/product3.jpg" alt="상품3">
-    <p>상품명 3</p>
-    <p>₩30,000</p>
-  </div>
-  <div class="product">
-    <img src="images/product3.jpg" alt="상품3">
-    <p>상품명 3</p>
-    <p>₩30,000</p>
-  </div>
-  <div class="product">
-    <img src="images/product3.jpg" alt="상품3">
-    <p>상품명 3</p>
-    <p>₩30,000</p>
-  </div>
-  <div class="product">
-    <img src="images/product3.jpg" alt="상품3">
-    <p>상품명 3</p>
-    <p>₩30,000</p>
-  </div>
-  <div class="product">
-    <img src="images/product3.jpg" alt="상품3">
-    <p>상품명 3</p>
-    <p>₩30,000</p>
-  </div>
-
+  <c:forEach var="product" items="${productList}">
+    <div class="product">
+      <img src="image.do?idFile=${product.idFile}" alt="${product.nmProduct}" width="150" height="150">
+      <p>${product.nmProduct}</p>
+      <p>₩${product.qtSalePrice}</p>
+    </div>
+  </c:forEach>
 </section>

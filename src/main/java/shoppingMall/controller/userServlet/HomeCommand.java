@@ -1,8 +1,9 @@
-package shoppingMall.controller;
+package shoppingMall.controller.userServlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import shoppingMall.controller.Command;
 
 import java.io.IOException;
 

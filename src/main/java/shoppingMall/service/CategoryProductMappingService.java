@@ -1,4 +1,3 @@
-// shoppingMall.service.CategoryProductMappingService
 package shoppingMall.service;
 
 import shoppingMall.dao.CategoryProductMappingDao;

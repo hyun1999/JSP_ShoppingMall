@@ -19,8 +19,8 @@ public class ProductService {
         productDao.insertProduct(product, conn);
     }
 
-    public void updateProduct(Product product) {
-        productDao.updateProduct(product);
+    public void updateProduct(Product product, Connection conn) throws SQLException {
+        productDao.updateProduct(product, conn);
     }
 
     public void deleteProduct(String productId) {
