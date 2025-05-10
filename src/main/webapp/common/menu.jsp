@@ -17,21 +17,25 @@
   <ul>
     <% for (Category top : topCategories) { %>
     <li class="dropdown">
-      <a href="#"><%= top.getName() %></a>
+      <a href="home.do?categoryId=<%= top.getCategoryId() %>"><%= top.getName() %></a>
       <ul class="submenu">
         <%
           List<Category> secondLevel = categoryMap.getOrDefault(top.getCategoryId(), new ArrayList<>());
           for (Category second : secondLevel) {
         %>
         <li class="dropdown-sub">
-          <a href="#"><%= second.getName() %></a>
+          <a href="home.do?categoryId=<%= second.getCategoryId() %>"><%= second.getName() %></a>
           <%
             List<Category> thirdLevel = categoryMap.getOrDefault(second.getCategoryId(), new ArrayList<>());
             if (!thirdLevel.isEmpty()) {
           %>
           <ul class="submenu submenu-right">
             <% for (Category third : thirdLevel) { %>
-            <li><a href="#"><%= third.getName() %></a></li>
+            <li>
+              <a href="home.do?categoryId=<%= third.getCategoryId() %>">
+                <%= third.getName() %>
+              </a>
+            </li>
             <% } %>
           </ul>
           <% } %>
@@ -39,6 +43,7 @@
         <% } %>
       </ul>
     </li>
+
     <% } %>
   </ul>
 </nav>

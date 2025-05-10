@@ -8,10 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import shoppingMall.controller.adminServlet.*;
 import shoppingMall.controller.adminServlet.command.UpdateMemberCommand;
-import shoppingMall.controller.userServlet.HomeCommand;
-import shoppingMall.controller.userServlet.LoginCommand;
-import shoppingMall.controller.userServlet.MypageCommand;
-import shoppingMall.controller.userServlet.RegisterCommand;
+import shoppingMall.controller.userServlet.*;
 import shoppingMall.controller.userServlet.command.DeleteRequestCommand;
 import shoppingMall.controller.userServlet.command.EditProfileCommand;
 import shoppingMall.controller.userServlet.command.LogoutCommand;
@@ -42,6 +39,7 @@ public class FrontControllerServlet extends HttpServlet {
         routeMap.put("/manageCategory.do", new ManageCategoryCommand());
         routeMap.put("/manageProduct.do", new ManageProductCommand());
         routeMap.put("/image.do", new ImageCommand());
+        routeMap.put("/productByCategory.do", new ProductByCategoryCommand());
     }
 
     @Override
