@@ -7,7 +7,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Coupang</title>
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=<%= System.currentTimeMillis() %>">
+
 </head>
 <body>
 

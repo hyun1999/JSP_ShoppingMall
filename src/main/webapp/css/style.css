@@ -196,17 +196,21 @@ body {
     font-size: 18px;
     text-align: center;
 }
-
-.menu ul {
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    list-style: none;
+/* 기본 메뉴 스타일 */
+.menu {
     background-color: #f2f2f2;
-    margin: 0;
 }
 
-.menu li {
+.menu > ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu > ul > li {
+    position: relative;
     margin: 0 20px;
 }
 
@@ -214,9 +218,48 @@ body {
     text-decoration: none;
     color: #333;
     font-size: 18px;
-    padding: 15px 0;
+    padding: 15px;
     display: block;
 }
+
+/* 모든 서브메뉴 기본 숨김 */
+.menu ul ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    min-width: 160px;
+    z-index: 100;
+}
+
+/* 3차 메뉴를 오른쪽에 표시 */
+.menu ul ul ul {
+    top: 0;
+    left: 100%;
+}
+
+/* hover 시 서브메뉴 표시 */
+.menu li:hover > ul {
+    display: block;
+}
+
+/* 3차 메뉴 위치 조정 */
+.submenu-right {
+    top: 0;
+    left: 100%;
+    position: absolute;
+}
+
+/* 2차 메뉴 항목의 위치 기준 설정 */
+.dropdown-sub {
+    position: relative;
+}
+
 
 .products {
     display: flex;
