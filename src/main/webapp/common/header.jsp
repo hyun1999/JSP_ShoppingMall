@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <meta charset="UTF-8">
 <%
   String userName = (String) session.getAttribute("userName");
@@ -8,7 +9,6 @@
   const contextPath = "<%= request.getContextPath() %>";
 </script>
 <script src="<%= request.getContextPath() %>/js/header.js" defer></script>
-
 
 <header>
   <div class="header-container">
@@ -35,9 +35,9 @@
 
           <div id="dropdown-menu" class="dropdown-menu" style="display: none;">
             <div class="dropdown-item" data-value="all">전체</div>
-            <div class="dropdown-item" data-value="electronics">전자제품</div>
-            <div class="dropdown-item" data-value="clothing">의류</div>
-            <div class="dropdown-item" data-value="books">도서</div>
+            <c:forEach var="category" items="${categoryList}">
+              <div class="dropdown-item" data-value="${category.categoryId}">${category.name}</div>
+            </c:forEach>
           </div>
         </div>
 

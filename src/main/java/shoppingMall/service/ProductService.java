@@ -19,8 +19,8 @@ public class ProductService {
         productDao.insertProduct(product, conn);
     }
 
-    public void updateProduct(Product product) {
-        productDao.updateProduct(product);
+    public void updateProduct(Product product, Connection conn) throws SQLException {
+        productDao.updateProduct(product, conn);
     }
 
     public void deleteProduct(String productId) {
@@ -30,4 +30,9 @@ public class ProductService {
     public Product getProductById(String productId) {
         return productDao.findProductById(productId);
     }
+
+    public List<Product> getProductsByCategory(int categoryId) {
+        return productDao.findProductsByCategory(categoryId);
+    }
+
 }

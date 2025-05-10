@@ -95,15 +95,13 @@ public class ProductDao {
     }
 
     // 상품 수정
-    public void updateProduct(Product product) {
+    public void updateProduct(Product product, Connection conn) throws SQLException {
         String sql = "UPDATE tb_product SET " +
                 "nm_product = ?, nm_detail_explain = ?, id_file = ?, dt_start_date = ?, dt_end_date = ?, " +
                 "qt_customer_price = ?, qt_sale_price = ?, qt_stock = ?, qt_delivery_fee = ?, no_register = ?, da_first_date = ? " +
                 "WHERE no_product = ?";
 
-        try (Connection conn = JdbcDriver.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, product.getNmProduct());
             ps.setString(2, product.getNmDetailExplain());
             ps.setString(3, product.getIdFile());
@@ -118,11 +116,36 @@ public class ProductDao {
             ps.setString(12, product.getNoProduct());
 
             ps.executeUpdate();
+        }
+    }
+    public List<Product> findProductsByCategory(int categoryId) {
+        String sql = """
+        SELECT p.*
+        FROM tb_product p
+        JOIN tb_category_product_mapping m ON p.no_product = m.no_product
+        WHERE m.nb_category = ?
+        ORDER BY m.cn_order
+    """;
+
+        List<Product> products = new ArrayList<>();
+
+        try (Connection conn = JdbcDriver.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, categoryId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    products.add(mapProduct(rs));
+                }
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return products;
     }
+
 
     // 결과 ResultSet → Product 객체 매핑
     private Product mapProduct(ResultSet rs) throws SQLException {
