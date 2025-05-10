@@ -118,6 +118,33 @@ public class ProductDao {
             ps.executeUpdate();
         }
     }
+    public List<Product> findProductsByCategory(int categoryId) {
+        String sql = """
+        SELECT p.*
+        FROM tb_product p
+        JOIN tb_category_product_mapping m ON p.no_product = m.no_product
+        WHERE m.nb_category = ?
+        ORDER BY m.cn_order
+    """;
+
+        List<Product> products = new ArrayList<>();
+
+        try (Connection conn = JdbcDriver.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, categoryId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    products.add(mapProduct(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
 
 
     // 결과 ResultSet → Product 객체 매핑

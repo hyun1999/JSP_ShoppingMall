@@ -30,4 +30,9 @@ public class ProductService {
     public Product getProductById(String productId) {
         return productDao.findProductById(productId);
     }
+
+    public List<Product> getProductsByCategory(int categoryId) {
+        return productDao.findProductsByCategory(categoryId);
+    }
+
 }
