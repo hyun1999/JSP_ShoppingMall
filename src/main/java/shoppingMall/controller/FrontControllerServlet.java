@@ -8,6 +8,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import shoppingMall.controller.adminServlet.*;
 import shoppingMall.controller.adminServlet.command.UpdateMemberCommand;
+import shoppingMall.controller.orderServlet.OrderFormCommand;
+import shoppingMall.controller.orderServlet.OrderSuccessCommand;
+import shoppingMall.controller.orderServlet.SubmitOrderCommand;
 import shoppingMall.controller.userServlet.*;
 import shoppingMall.controller.userServlet.command.DeleteRequestCommand;
 import shoppingMall.controller.userServlet.command.EditProfileCommand;
@@ -41,6 +44,9 @@ public class FrontControllerServlet extends HttpServlet {
         routeMap.put("/image.do", new ImageCommand());
         routeMap.put("/productByCategory.do", new ProductByCategoryCommand());
         routeMap.put("/productDetail.do", new ProductDetailCommand());
+        routeMap.put("/orderForm.do", new OrderFormCommand());
+        routeMap.put("/submitOrder.do", new SubmitOrderCommand());
+        routeMap.put("/orderSuccess.do", new OrderSuccessCommand());
 
     }
 

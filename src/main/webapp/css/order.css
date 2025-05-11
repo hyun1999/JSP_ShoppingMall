@@ -1,0 +1,103 @@
+body {
+    font-family: dotum, sans-serif;
+    font-size: 12px;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+}
+
+.container {
+    max-width: 547px;
+    margin: 60px auto;
+    padding: 20px 30px 30px;
+    border: 1px solid #DFE3E7;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    background-color: #fff;
+}
+
+h2 {
+    font-size: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #3366ff;
+}
+
+p {
+    font-size: 14px;
+    margin-bottom: 16px;
+    color: #444;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #D2D2D2;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 12px;
+    background-color: #fff;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #3366ff;
+    background-color: #E7F0FE;
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+    background-color: #3366ff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button[type="submit"]:hover {
+    background-color: #264fd1;
+}
+
+/* 주문 완료 화면 전용 스타일 */
+.order-success {
+    text-align: center;
+}
+
+.order-success p {
+    margin: 12px 0;
+    font-size: 15px;
+}
+
+.order-success strong {
+    color: #3366ff;
+}
+.order-success a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #3366ff;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.order-success a:hover {
+    background-color: #254eda;
+}
+
+@media screen and (max-width: 600px) {
+    .container {
+        margin: 20px;
+        padding: 20px;
+    }
+}
