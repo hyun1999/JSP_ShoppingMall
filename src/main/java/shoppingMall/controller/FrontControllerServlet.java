@@ -40,6 +40,8 @@ public class FrontControllerServlet extends HttpServlet {
         routeMap.put("/manageProduct.do", new ManageProductCommand());
         routeMap.put("/image.do", new ImageCommand());
         routeMap.put("/productByCategory.do", new ProductByCategoryCommand());
+        routeMap.put("/productDetail.do", new ProductDetailCommand());
+
     }
 
     @Override
