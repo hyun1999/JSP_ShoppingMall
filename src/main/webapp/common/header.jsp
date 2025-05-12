@@ -17,6 +17,7 @@
       <a href="login.do" class="header-link">로그인</a>
       <a href="register.do" class="header-link">회원가입</a>
       <% } else { %>
+      <span class="header-link"><strong><%= userName %></strong> 님 반갑습니다.</span>
       <a href="logout.do" class="header-link">로그아웃</a>
       <a href="cart/cart.jsp" class="header-link">장바구니</a>
       <% } %>
