@@ -27,7 +27,7 @@
 <div class="container container-bottom">
   <div class="login-wrapper">
 
-    <form action="login.do" method="post" class="login-form tab-content" id="tab-email">
+    <form action="<%= request.getContextPath() %>/login.do" method="post" class="login-form tab-content" id="tab-email">
       <div class="input-group email-group">
         <div class="input-left">
           <img src="<%= request.getContextPath() %>/images/email-icon.png" alt="이메일 아이콘" class="input-icon">
@@ -74,7 +74,8 @@
 
       <button type="submit" class="login-btn">로그인</button>
       <div class="btn-split"></div>
-      <button type="button" class="signup-btn" onclick="location.href='register.do'">회원가입</button>
+      <button type="button" class="signup-btn" onclick="location.href='<%= request.getContextPath() %>/register.do'">회원가입</button>
+
 
 
     </form>

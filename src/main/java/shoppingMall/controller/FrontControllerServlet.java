@@ -13,7 +13,6 @@ import shoppingMall.controller.orderServlet.*;
 import shoppingMall.controller.userServlet.*;
 import shoppingMall.controller.userServlet.OrderListCommand;
 import shoppingMall.controller.userServlet.command.DeleteRequestCommand;
-import shoppingMall.controller.userServlet.command.EditProfileCommand;
 import shoppingMall.controller.userServlet.command.LogoutCommand;
 
 import java.io.IOException;

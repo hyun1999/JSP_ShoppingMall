@@ -5,6 +5,7 @@ import shoppingMall.domain.User;
 import shoppingMall.domain.enums.Status;
 import shoppingMall.domain.enums.UserType;
 import shoppingMall.dto.RegisterDto;
+import shoppingMall.utils.Encoder;
 import shoppingMall.utils.JdbcDriver;
 
 import java.sql.*;
@@ -83,19 +84,31 @@ public class UserDao {
         return null;
     }
 
-    public void updateUser(HttpServletRequest request) {
-        String sql = "UPDATE tb_user SET nm_user = ?, nm_email = ?, no_mobile = ? WHERE id_user = ?";
+    public void updateUser(User user) {
+        String sql = "UPDATE tb_user SET " +
+                "nm_user = ?, " +
+                "nm_email = ?, " +
+                "no_mobile = ?, " +
+                "nm_paswd = ?, " +
+                "nm_enc_paswd = ? " +
+                "WHERE id_user = ?";
+
         try (Connection conn = JdbcDriver.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, request.getParameter("userName"));
-            ps.setString(2, request.getParameter("email"));
-            ps.setString(3, request.getParameter("mobile"));
-            ps.setString(4, request.getParameter("userId"));
+
+            ps.setString(1, user.getUserName());
+            ps.setString(2, user.getEmail());
+            ps.setString(3, user.getMobileNo());
+            ps.setString(4, user.getPassword()); // 일반 비밀번호 (평문 저장)
+            ps.setString(5, Encoder.encode(user.getPassword())); // 암호화된 비밀번호
+            ps.setString(6, user.getUserId());
+
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     public void deleteUser(String userId) {
         String sql = "DELETE FROM tb_user WHERE id_user = ?";

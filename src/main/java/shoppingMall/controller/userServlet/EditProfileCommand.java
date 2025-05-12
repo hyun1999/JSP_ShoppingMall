@@ -1,4 +1,4 @@
-package shoppingMall.controller.userServlet.command;
+package shoppingMall.controller.userServlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +30,6 @@ public class EditProfileCommand implements Command {
             request.getRequestDispatcher("/user/editProfile.jsp").forward(request, response);
         }
 
-        // doPost 부분 처리 (프로필 수정 후 세션 업데이트)
         else if (request.getMethod().equals("POST")) {
             User updatedUser = userService.updateUser(request);
             HttpSession session = request.getSession(false);
