@@ -17,39 +17,43 @@ public class LoginCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!"POST".equalsIgnoreCase(request.getMethod())) {
+            response.sendRedirect(request.getContextPath() + "/user/login.jsp");
+            return;
+        }
         String userId = request.getParameter("userId");
         String password = request.getParameter("password");
+        HttpSession session = request.getSession();
 
         if (userService.login(userId, password)) {
             UserTypeDto userByUserId = userService.getUserByUserId(userId);
-            // ST00(승인 대기 상태)인 경우 로그인 거부
+
             if (userByUserId.getUserStatus().equals(Status.ST00)) {
-                request.setAttribute("error", "관리자 승인 후 로그인 가능합니다.");
-                request.getRequestDispatcher("/user/login.jsp").forward(request, response);
+                session.setAttribute("error", "관리자 승인 후 로그인 가능합니다.");
+                response.sendRedirect(request.getContextPath() + "/user/login.jsp");
                 return;
             }
 
-            // ST02(승인 대기 상태)인 경우 로그인 거부
             if (userByUserId.getUserStatus().equals(Status.ST02)) {
-                request.setAttribute("error", "일시정지 상태입니다. 관리자에게 요청하세요.");
-                request.getRequestDispatcher("/user/login.jsp").forward(request, response);
+                session.setAttribute("error", "일시정지 상태입니다. 관리자에게 요청하세요.");
+                response.sendRedirect(request.getContextPath() + "/user/login.jsp");
                 return;
             }
 
-            HttpSession session = request.getSession(true);
             session.setAttribute("userId", userByUserId.getUserId());
             session.setAttribute("userType", userByUserId.getUserType());
             session.setAttribute("email", userByUserId.getEmail());
             session.setAttribute("userName", userByUserId.getUserName());
 
             if (userByUserId.getUserType() == UserType.User) {
-                response.sendRedirect(request.getContextPath() + "/index.jsp");
+                response.sendRedirect(request.getContextPath() + "/home.do");
             } else {
                 response.sendRedirect(request.getContextPath() + "/adminPage.do");
             }
         } else {
-            request.setAttribute("error", "아이디 또는 비밀번호가 잘못되었습니다.");
-            request.getRequestDispatcher("/user/login.jsp").forward(request, response);
+            session.setAttribute("error", "아이디 또는 비밀번호가 잘못되었습니다.");
+            response.sendRedirect(request.getContextPath() + "/user/login.jsp");
         }
     }
+
 }

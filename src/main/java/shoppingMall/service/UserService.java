@@ -75,9 +75,26 @@ public class UserService {
     }
 
     public User updateUser(HttpServletRequest request) {
-        userDao.updateUser(request);
-        return userDao.findByUserId(request.getParameter("userId"));
+        String userId = request.getParameter("userId");
+        String userName = request.getParameter("userName");
+        String email = request.getParameter("email");
+        String mobile = request.getParameter("mobile");
+        String password = request.getParameter("password");
+
+        User user = userDao.findByUserId(userId);
+        user.setUserName(userName);
+        user.setEmail(email);
+        user.setMobileNo(mobile);
+        user.setPassword(password);
+
+        if (password != null && !password.trim().isEmpty()) {
+            String encodedPassword = Encoder.encode(password);
+            user.setEncPassword(encodedPassword);
+        }
+        userDao.updateUser(user);
+        return user;
     }
+
 
     public void stopUser(String userId) {
         userDao.updateStatus(userId, Status.ST03);
