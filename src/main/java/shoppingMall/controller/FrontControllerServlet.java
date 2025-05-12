@@ -8,9 +8,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import shoppingMall.controller.adminServlet.*;
 import shoppingMall.controller.adminServlet.command.UpdateMemberCommand;
+import shoppingMall.controller.cart.*;
 import shoppingMall.controller.orderServlet.OrderFormCommand;
 import shoppingMall.controller.orderServlet.OrderSuccessCommand;
 import shoppingMall.controller.orderServlet.SubmitOrderCommand;
+import shoppingMall.controller.orderServlet.SubmitSelectedOrderCommand;
 import shoppingMall.controller.userServlet.*;
 import shoppingMall.controller.userServlet.command.DeleteRequestCommand;
 import shoppingMall.controller.userServlet.command.EditProfileCommand;
@@ -47,6 +49,16 @@ public class FrontControllerServlet extends HttpServlet {
         routeMap.put("/orderForm.do", new OrderFormCommand());
         routeMap.put("/submitOrder.do", new SubmitOrderCommand());
         routeMap.put("/orderSuccess.do", new OrderSuccessCommand());
+        // 장바구니 Routing
+        routeMap.put("/addToCart.do", new AddToCartCommand());
+        routeMap.put("/viewCart.do", new ViewCartCommand());
+        routeMap.put("/updateCartItem.do", new UpdateCartItemCommand());
+        routeMap.put("/deleteCartItem.do", new DeleteCartItemCommand());
+        routeMap.put("/clearCart.do", new ClearCartCommand());
+        routeMap.put("/orderSelected.do", new OrderSelectedCommand());
+        routeMap.put("/submitSelectedOrder.do", new SubmitSelectedOrderCommand());
+        routeMap.put("/deleteSelected.do", new DeleteSelectedCartItemsCommand());
+
 
     }
 
@@ -57,7 +69,6 @@ public class FrontControllerServlet extends HttpServlet {
         String path = uri.substring(contextPath.length());
 
         Command command = routeMap.get(path);
-
         if (command != null) {
             command.execute(request, response);
         } else {
