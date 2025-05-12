@@ -13,7 +13,7 @@
     <meta charset="UTF-8">
     <title>마이페이지</title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/mypage.css">
-    <script src="../js/mypage.js"></script>
+    <script src="<%= request.getContextPath() %>/js/mypage.js"></script>
 </head>
 <body>
 <div class="mypage-container">
@@ -21,7 +21,7 @@
 
     <div class="user-info">
         <p><strong>환영합니다, <%= userName %> 님!</strong></p>
-        <p>가입된 이메일: <%=session.getAttribute("email")%></p>
+        <p>가입된 이메일: <%= session.getAttribute("email") %></p>
     </div>
 
     <div class="actions">
@@ -30,6 +30,10 @@
         <form id="deleteForm" action="memberDelete.do" method="post">
             <button type="submit" id="deleteLink">탈퇴하기</button>
         </form>
+    </div>
+
+    <div class="back-to-home">
+        <a href="home.do" class="home-btn">← 홈으로 돌아가기</a>
     </div>
 </div>
 </body>

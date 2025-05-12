@@ -15,10 +15,6 @@
 <jsp:include page="/common/header.jsp" />
 
 <main>
-  <% if (userName != null) { %>
-  <div class="welcome"><strong><%= userName %></strong> 님 반갑습니다.</div>
-  <% } %>
-
   <jsp:include page="/common/menu.jsp" />
 
   <c:choose>

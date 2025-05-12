@@ -1,0 +1,32 @@
+.status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-paid {
+    background-color: #28a745;
+    color: white;
+}
+
+.status-unpaid {
+    background-color: #dc3545;
+    color: white;
+}
+
+.status-shipped {
+    background-color: #007bff;
+    color: white;
+}
+
+.status-delivered {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.status-processing {
+    background-color: #ffc107;
+    color: black;
+}

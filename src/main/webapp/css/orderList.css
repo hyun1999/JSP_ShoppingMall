@@ -1,0 +1,77 @@
+.order-list-container {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+.order-list-container h2 {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 25px;
+    color: #222;
+}
+
+.order-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    table-layout: fixed;
+}
+
+.order-table th,
+.order-table td {
+    padding: 14px 10px;
+    border: 1px solid #e0e0e0;
+    text-align: center;
+    word-break: break-word;
+}
+
+.order-table th {
+    background-color: #f5f5f5;
+    color: #333;
+    font-weight: 600;
+}
+
+.order-table td button {
+    padding: 6px 12px;
+    font-size: 13px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4285f4;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.order-table td button:hover {
+    background-color: #2f6bd6;
+}
+
+.no-orders {
+    text-align: center;
+    margin-top: 30px;
+    color: #666;
+    font-size: 16px;
+}
+
+.back-btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.back-btn:hover {
+    background-color: #e0e0e0;
+}

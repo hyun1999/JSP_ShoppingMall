@@ -167,4 +167,18 @@ public class ProductDao {
         }
         return product;
     }
+
+    public void decreaseStock(String productId, int quantity, Connection conn) throws Exception {
+        String sql = "UPDATE TB_PRODUCT SET qt_stock = qt_stock - ? WHERE no_product = ? AND qt_stock >= ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, quantity);
+            stmt.setString(2, productId);
+            stmt.setInt(3, quantity);
+            int updated = stmt.executeUpdate();
+            if (updated == 0) {
+                throw new RuntimeException("재고 부족 또는 존재하지 않는 상품: " + productId);
+            }
+        }
+    }
+
 }

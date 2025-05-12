@@ -9,6 +9,7 @@ import shoppingMall.utils.JdbcDriver;
 
 import java.sql.Connection;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class OrderService {
@@ -80,5 +81,13 @@ public class OrderService {
 
     public Order getOrderById(String orderId) {
         return orderDao.getOrderById(orderId);
+    }
+
+    public List<Order> getOrdersByUserId(String userId) {
+        return orderDao.getOrdersByUserId(userId);
+    }
+
+    public List<OrderItem> getOrderItemsByOrderId(String orderId) {
+        return orderItemDao.getOrderItemsByOrderId(orderId);
     }
 }

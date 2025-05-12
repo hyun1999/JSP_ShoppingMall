@@ -17,8 +17,9 @@
       <a href="login.do" class="header-link">로그인</a>
       <a href="register.do" class="header-link">회원가입</a>
       <% } else { %>
+      <span class="header-link"><strong><%= userName %></strong> 님 반갑습니다.</span>
       <a href="logout.do" class="header-link">로그아웃</a>
-      <a href="cart/cart.jsp" class="header-link">장바구니</a>
+      <a href="viewCart.do" class="header-link">장바구니</a>
       <% } %>
     </div>
   </div>
@@ -55,7 +56,7 @@
             <span class="text">마이쿠팡</span>
           </div>
         </a>
-        <a href="cart/cart.jsp" class="cart">
+        <a href="viewCart.do" class="cart">
           <div class="icon-container">
             <img src="<%= request.getContextPath() %>/images/cart_icon.png" alt="장바구니" class="cart-icon-img">
             <span class="text">장바구니</span>
