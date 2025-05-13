@@ -11,6 +11,107 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ProductDao {
+
+    public List<Product> findByCategoryIdsAndKeyword(List<Integer> categoryIds, String keyword) {
+        List<Product> products = new ArrayList<>();
+
+        StringBuilder sql = new StringBuilder("""
+        SELECT
+            p.no_product,
+            p.nm_product,
+            p.nm_detail_explain,
+            p.id_file,
+            p.dt_start_date,
+            p.dt_end_date,
+            p.qt_customer_price,
+            p.qt_sale_price,
+            p.qt_stock,
+            p.qt_delivery_fee,
+            p.no_register,
+            p.da_first_date
+        FROM tb_product p
+    """);
+
+        List<Object> parameters = new ArrayList<>();
+        boolean hasCategory = categoryIds != null && !categoryIds.isEmpty();
+        boolean hasKeyword = keyword != null && !keyword.isBlank();
+
+        if (hasCategory) {
+            sql.append("JOIN tb_category_product_mapping cp ON p.no_product = cp.no_product ");
+            sql.append("WHERE cp.nb_category IN (")
+                    .append(categoryIds.stream().map(id -> "?").collect(Collectors.joining(",")))
+                    .append(") ");
+            parameters.addAll(categoryIds);
+        } else {
+            sql.append("WHERE 1=1 ");
+        }
+
+        if (hasKeyword) {
+            sql.append("AND LOWER(p.nm_product) LIKE ? ");
+            parameters.add("%" + keyword.toLowerCase() + "%");
+        }
+
+        try (Connection conn = JdbcDriver.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+
+            for (int i = 0; i < parameters.size(); i++) {
+                Object param = parameters.get(i);
+                if (param instanceof Integer) {
+                    ps.setInt(i + 1, (Integer) param);
+                } else if (param instanceof String) {
+                    ps.setString(i + 1, (String) param);
+                }
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    products.add(mapProduct(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
+
+
+    public List<Product> findByCategoryIdsSorted(List<Integer> categoryIds, String sort) {
+        if (categoryIds == null || categoryIds.isEmpty()) return Collections.emptyList();
+
+        String placeholders = categoryIds.stream().map(id -> "?").collect(Collectors.joining(","));
+        StringBuilder sql = new StringBuilder("SELECT p.* FROM tb_product p ");
+        sql.append("JOIN tb_category_product_mapping cp ON p.no_product = cp.no_product ");
+        sql.append("WHERE cp.nb_category IN (").append(placeholders).append(") ");
+
+        if ("price_asc".equals(sort)) {
+            sql.append("ORDER BY p.qt_sale_price ASC");
+        } else if ("price_desc".equals(sort)) {
+            sql.append("ORDER BY p.qt_sale_price DESC");
+        }
+
+        List<Product> products = new ArrayList<>();
+
+        try (Connection conn = JdbcDriver.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+
+            for (int i = 0; i < categoryIds.size(); i++) {
+                ps.setInt(i + 1, categoryIds.get(i));
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    products.add(mapProduct(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
     public void mapProductToCategory(int productId, int categoryId, int order) {
         String sql = "INSERT INTO tb_category_product_mapping (no_product, nb_category, cn_order) VALUES (?, ?, ?)";
 

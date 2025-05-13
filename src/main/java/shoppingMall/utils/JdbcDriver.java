@@ -31,8 +31,8 @@ public class JdbcDriver {
             config.setUsername(prop.getProperty("jdbc.user"));
             config.setPassword(prop.getProperty("jdbc.password"));
             config.setDriverClassName("oracle.jdbc.OracleDriver");
-            config.setMaximumPoolSize(5);
-            config.setMinimumIdle(2);
+            config.setMaximumPoolSize(1);
+            config.setMinimumIdle(1);
             config.setIdleTimeout(30000);
 
             dataSource = new HikariDataSource(config);

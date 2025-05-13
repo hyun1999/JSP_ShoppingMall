@@ -9,7 +9,6 @@
 <body>
 <div class="admin-container">
 
-    <!-- ✅ 네비게이션 바 -->
     <div class="admin-header">
         <div class="nav-left">
             <span class="admin-welcome">상품 관리</span>
@@ -25,7 +24,6 @@
         </div>
     </div>
 
-    <!-- ✅ 상품 등록/수정 -->
     <section class="product-form-section">
         <h2>${empty selectedProduct ? "상품 등록" : "상품 수정"}</h2>
 
@@ -84,7 +82,6 @@
         </form>
     </section>
 
-    <!-- ✅ 상품 목록 -->
     <section class="product-list-section">
         <h2>상품 목록</h2>
         <table>

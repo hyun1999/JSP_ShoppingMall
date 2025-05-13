@@ -29,7 +29,7 @@
       <a href="<%= request.getContextPath() %>/home.do" class="logo">
         <img src="<%= request.getContextPath() %>/images/logo.jpg" alt="Coupang 로고" class="logo-img">
       </a>
-      <form action="searchResult.do" method="get" class="styled-search-form">
+      <form action="home.do" method="get" class="styled-search-form">
         <div class="select-wrapper">
           <div id="selected-category" class="custom-select-display">전체</div>
           <img id="arrow-icon" src="<%= request.getContextPath() %>/images/down-arrow.png" alt="화살표" class="arrow-icon">
