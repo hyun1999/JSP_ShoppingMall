@@ -1,11 +1,48 @@
+/* 컨테이너 전체 */
 .admin-container {
     max-width: 1000px;
     margin: auto;
     padding: 30px;
     font-family: 'Segoe UI', sans-serif;
     background: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
 }
 
+/* 상단 네비게이션 */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #343a40;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 6px;
+    margin-bottom: 25px;
+}
+
+.admin-header .header-link {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 8px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.admin-header .header-link:hover {
+    color: #ffc107;
+}
+
+.admin-header span {
+    color: #ccc;
+}
+
+.nav-left, .nav-right {
+    display: flex;
+    align-items: center;
+}
+
+/* 제목 스타일 */
 h2 {
     margin-top: 40px;
     border-bottom: 2px solid #ddd;
@@ -13,6 +50,7 @@ h2 {
     color: #333;
 }
 
+/* 폼 구성 */
 .form-row {
     margin-bottom: 10px;
     display: flex;
@@ -27,21 +65,34 @@ h2 {
 input[type="text"], input[type="number"], select {
     padding: 5px;
     min-width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
+/* 기본 버튼 */
 input[type="submit"] {
-    padding: 5px 12px;
+    padding: 6px 14px;
     background: #007bff;
     color: white;
     border: none;
     border-radius: 4px;
+    font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
 input[type="submit"]:hover {
     background: #0056b3;
 }
 
+/* 에러 메시지 */
+.error-message {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* 카테고리 목록 */
 .category-list {
     margin-top: 20px;
 }
@@ -58,13 +109,15 @@ input[type="submit"]:hover {
     margin-right: 8px;
 }
 
+/* 상품 매핑 테이블 */
 .mapped-product-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
 }
 
-.mapped-product-table th, .mapped-product-table td {
+.mapped-product-table th,
+.mapped-product-table td {
     border: 1px solid #ccc;
     padding: 8px 12px;
 }

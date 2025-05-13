@@ -16,7 +16,15 @@ public class Category {
     private YnFlag deleted; // yn_delete
     private String createdBy;           // no_register
     private LocalDateTime createdAt;    // da_first_date
+    private boolean leaf;
 
+    public boolean isLeaf() {
+        return leaf;
+    }
+
+    public void setLeaf(boolean leaf) {
+        this.leaf = leaf;
+    }
     public Category() {
     }
 

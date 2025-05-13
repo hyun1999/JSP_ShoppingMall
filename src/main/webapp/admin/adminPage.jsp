@@ -1,19 +1,30 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
 <%@ page import="shoppingMall.domain.User" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>관리자 페이지</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/adminPage.css">
 </head>
 <body>
-<div class="container">
-    <h2><%= session.getAttribute("userName") %> 관리자님, 반갑습니다.</h2>
-    <a href="logout.do" class="header-link">로그아웃</a>
-    | <a href="manageCategory.do" class="header-link">카테고리 관리</a>
-    | <a href="manageProduct.do" class="header-link">상품 관리</a>
-    | <a href="manageDisplayCategory.do" class="header-link">전시 카테고리 관리</a>
+<div class="admin-container">
 
+    <div class="admin-header">
+        <div class="nav-left">
+            <span class="admin-welcome"><%= session.getAttribute("userName") %> 관리자님, 환영합니다.</span>
+        </div>
+        <div class="nav-right">
+            <a href="adminPage.do" class="header-link">관리자페이지</a>
+            <span>|</span>
+            <a href="manageProduct.do" class="header-link">상품 관리</a>
+            <span>|</span>
+            <a href="manageDisplayCategory.do" class="header-link">전시 카테고리 관리</a>
+            <span>|</span>
+            <a href="logout.do" class="header-link logout-link">로그아웃</a>
+        </div>
+    </div>
+
+    <!-- ✅ 회원가입 요청 목록 -->
     <h3>회원가입 요청 목록</h3>
     <div class="card-container">
         <%
@@ -31,14 +42,12 @@
                 </div>
             </form>
         </div>
-        <%
-            }
-        } else {
-        %>
+        <% }} else { %>
         <p>가입 요청한 회원이 없습니다.</p>
         <% } %>
     </div>
 
+    <!-- ✅ 탈퇴 요청 목록 -->
     <h3>탈퇴 요청 회원 목록</h3>
     <div class="card-container">
         <%
@@ -57,14 +66,12 @@
                 </div>
             </form>
         </div>
-        <%
-            }
-        } else {
-        %>
+        <% }} else { %>
         <p>탈퇴 요청한 회원이 없습니다.</p>
         <% } %>
     </div>
 
+    <!-- ✅ 전체 회원 목록 -->
     <h3>전체 회원 목록</h3>
     <div class="card-container">
         <%
@@ -85,7 +92,6 @@
                 <%
                     String mobile = user.getMobileNo();
                     String formattedMobile = "";
-
                     if (mobile != null && mobile.length() == 11) {
                         if ("Admn".equals(user.getUserType().name())) {
                             formattedMobile = "010-XXXX-XXXX";
@@ -117,10 +123,7 @@
                 </div>
             </form>
         </div>
-        <%
-            }
-        } else {
-        %>
+        <% }} else { %>
         <p>등록된 회원이 없습니다.</p>
         <% } %>
     </div>

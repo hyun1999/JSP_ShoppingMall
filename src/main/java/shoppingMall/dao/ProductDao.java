@@ -9,6 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDao {
+    public void mapProductToCategory(int productId, int categoryId, int order) {
+        String sql = "INSERT INTO tb_category_product_mapping (no_product, nb_category, cn_order) VALUES (?, ?, ?)";
+
+        try (Connection conn = JdbcDriver.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, productId);
+            ps.setInt(2, categoryId);
+            ps.setInt(3, order);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     // 모든 상품 조회
     public List<Product> findAllProducts() {
