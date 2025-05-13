@@ -13,37 +13,36 @@
   List<Category> topCategories = categoryMap.getOrDefault(0, new ArrayList<>());
 %>
 
-<nav class="menu">
-  <ul>
+<nav class="menu-nav">
+  <ul class="menu">
     <% for (Category top : topCategories) { %>
     <li class="dropdown">
       <a href="home.do?categoryId=<%= top.getCategoryId() %>"><%= top.getName() %></a>
+
+      <% List<Category> secondLevel = categoryMap.getOrDefault(top.getCategoryId(), new ArrayList<>()); %>
+      <% if (!secondLevel.isEmpty()) { %>
       <ul class="submenu">
-        <%
-          List<Category> secondLevel = categoryMap.getOrDefault(top.getCategoryId(), new ArrayList<>());
-          for (Category second : secondLevel) {
-        %>
+        <% for (Category second : secondLevel) { %>
         <li class="dropdown-sub">
           <a href="home.do?categoryId=<%= second.getCategoryId() %>"><%= second.getName() %></a>
-          <%
-            List<Category> thirdLevel = categoryMap.getOrDefault(second.getCategoryId(), new ArrayList<>());
-            if (!thirdLevel.isEmpty()) {
-          %>
+
+          <% List<Category> thirdLevel = categoryMap.getOrDefault(second.getCategoryId(), new ArrayList<>()); %>
+          <% if (!thirdLevel.isEmpty()) { %>
           <ul class="submenu submenu-right">
             <% for (Category third : thirdLevel) { %>
             <li>
-              <a href="home.do?categoryId=<%= third.getCategoryId() %>">
-                <%= third.getName() %>
-              </a>
+              <a href="home.do?categoryId=<%= third.getCategoryId() %>"><%= third.getName() %></a>
             </li>
             <% } %>
           </ul>
           <% } %>
+
         </li>
         <% } %>
       </ul>
-    </li>
+      <% } %>
 
+    </li>
     <% } %>
   </ul>
 </nav>

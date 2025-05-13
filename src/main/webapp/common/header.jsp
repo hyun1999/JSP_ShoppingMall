@@ -26,7 +26,7 @@
 
   <div class="search-container">
     <div class="search-inner">
-      <a href="home.do" class="logo">
+      <a href="<%= request.getContextPath() %>/home.do" class="logo">
         <img src="<%= request.getContextPath() %>/images/logo.jpg" alt="Coupang 로고" class="logo-img">
       </a>
       <form action="searchResult.do" method="get" class="styled-search-form">

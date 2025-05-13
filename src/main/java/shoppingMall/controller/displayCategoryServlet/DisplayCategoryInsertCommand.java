@@ -1,4 +1,4 @@
-package shoppingMall.controller.adminServlet.command;
+package shoppingMall.controller.displayCategoryServlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -11,7 +11,7 @@
 <body>
 <div class="container">
   <div class="login-wrapper">
-    <a href="home.do" class="logo">
+    <a href="<%= request.getContextPath() %>/home.do" class="logo">
       <img src="<%= request.getContextPath() %>/images/logo.jpg" alt="Coupang 로고" class="logo-img">
     </a>
     <div class="login-tabs">

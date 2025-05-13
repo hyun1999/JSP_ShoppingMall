@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import shoppingMall.controller.adminServlet.*;
-import shoppingMall.controller.adminServlet.command.DisplayCategoryInsertCommand;
 import shoppingMall.controller.adminServlet.command.UpdateMemberCommand;
 import shoppingMall.controller.cart.*;
 import shoppingMall.controller.displayCategoryServlet.*;
