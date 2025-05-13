@@ -9,7 +9,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDao {
+    public List<Category> findChildren(int parentId) {
+        String sql = "SELECT * FROM tb_category WHERE nb_parent_category = ? AND yn_delete = 'N'";
+        List<Category> children = new ArrayList<>();
 
+        try (Connection conn = JdbcDriver.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, parentId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    children.add(mapCategory(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return children;
+    }
     // 모든 카테고리 목록 조회 (삭제되지 않은 카테고리)
     public List<Category> findAll() {
         String sql = "SELECT * FROM tb_category WHERE yn_delete = 'N' ORDER BY cn_order";

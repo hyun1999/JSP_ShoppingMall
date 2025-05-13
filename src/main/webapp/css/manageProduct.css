@@ -1,77 +1,161 @@
+/* 기본 설정 */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f6f8;
+    color: #2c3e50;
 }
 
-.container {
-    width: 80%;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+/* 관리자 레이아웃 */
+.admin-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 0 16px rgba(0, 0, 0, 0.05);
 }
 
-label {
-    display: block;
-    margin-top: 10px;
+/* 상단 네비게이션 */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2d3436;
+    padding: 14px 28px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.header-link {
+    color: #ecf0f1;
+    text-decoration: none;
+    margin: 0 10px;
+    font-size: 15px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.header-link:hover {
+    color: #ffca28;
+}
+
+.logout-link {
     font-weight: bold;
 }
 
-input, textarea, select {
-    width: 100%;
-    padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+/* 공통 form 스타일 */
+label {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #333;
 }
 
-button {
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="file"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.2s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* 버튼 공통 스타일 */
+button,
+input[type="submit"] {
     padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-blue {
     background-color: #007bff;
     color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
 }
 
-button:hover {
+.btn-blue:hover {
     background-color: #0056b3;
 }
 
+.btn-gray {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-gray:hover {
+    background-color: #5a6268;
+}
+
+.btn-red {
+    background-color: #e53935;
+    color: white;
+}
+
+.btn-red:hover {
+    background-color: #c62828;
+}
+
+/* 테이블 스타일 */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
-}
-
-table, th, td {
-    border: 1px solid #ccc;
+    margin-top: 40px;
+    background-color: #fff;
+    border-radius: 6px;
+    overflow: hidden;
 }
 
 th, td {
-    padding: 10px;
+    padding: 14px 12px;
+    border: 1px solid #e0e0e0;
+    font-size: 14px;
     text-align: center;
 }
 
-form {
+th {
+    background-color: #f5f7fa;
+    font-weight: bold;
+}
+
+/* 이미지 미리보기 */
+.image-preview {
+    margin-top: 15px;
+}
+
+.image-preview img {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    max-width: 120px;
+    height: auto;
+}
+
+/* 인라인 폼 (삭제/수정 버튼용) */
+form.inline-form {
     display: inline-block;
+    margin-right: 5px;
 }
 
-form input[type="hidden"] {
+form.inline-form input[type="hidden"] {
     display: none;
-}
-
-button[type="submit"] {
-    margin-top: 10px;
-    background-color: #dc3545;
-    color: white;
-    font-size: 1rem;
-    padding: 6px 15px;
-}
-
-button[type="submit"]:hover {
-    background-color: #c82333;
 }

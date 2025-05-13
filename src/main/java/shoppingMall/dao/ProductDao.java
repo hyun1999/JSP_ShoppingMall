@@ -9,6 +9,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDao {
+    public void mapProductToCategory(int productId, int categoryId, int order) {
+        String sql = "INSERT INTO tb_category_product_mapping (no_product, nb_category, cn_order) VALUES (?, ?, ?)";
+
+        try (Connection conn = JdbcDriver.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, productId);
+            ps.setInt(2, categoryId);
+            ps.setInt(3, order);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     // 모든 상품 조회
     public List<Product> findAllProducts() {
@@ -179,6 +195,32 @@ public class ProductDao {
                 throw new RuntimeException("재고 부족 또는 존재하지 않는 상품: " + productId);
             }
         }
+    }
+    public List<Product> findUnmappedProducts(int categoryId) {
+        String sql = """
+        SELECT * FROM tb_product
+        WHERE no_product NOT IN (
+            SELECT no_product FROM tb_category_product_mapping WHERE nb_category = ?
+        )
+    """;
+
+        List<Product> products = new ArrayList<>();
+
+        try (Connection conn = JdbcDriver.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, categoryId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    products.add(mapProduct(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
     }
 
 }

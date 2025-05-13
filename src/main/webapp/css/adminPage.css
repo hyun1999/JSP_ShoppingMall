@@ -1,5 +1,3 @@
-/* admin.css */
-
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -7,12 +5,46 @@ body {
     color: #333;
 }
 
-.container {
+/* 상단 네비게이션 */
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #343a40;
+    padding: 12px 24px;
+    color: white;
+    border-radius: 0;
+    font-size: 15px;
+}
+
+.header-link {
+    color: #ffffff;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.header-link:hover {
+    color: #ffc107;
+}
+
+.logout-link {
+    font-weight: bold;
+}
+
+.admin-welcome {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/* 관리자 영역 */
+.admin-container {
     max-width: 1200px;
     margin: 40px auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    background-color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
     border-radius: 12px;
 }
 
@@ -21,6 +53,7 @@ h2, h3 {
     margin-bottom: 20px;
 }
 
+/* 카드 컨테이너 */
 .card-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -37,7 +70,7 @@ h2, h3 {
 }
 
 .member-card:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     transform: translateY(-5px);
 }
 
@@ -78,6 +111,8 @@ h2, h3 {
 .btn-area input[type="submit"]:hover {
     background-color: #2980b9;
 }
+
+/* 탈퇴요청 카드 강조 */
 .withdrawn-user {
     border: 2px solid red;
     background-color: #fff0f0;
