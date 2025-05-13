@@ -3,6 +3,7 @@ package shoppingMall.service;
 import shoppingMall.dao.CategoryDao;
 import shoppingMall.domain.Category;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryService {
@@ -34,7 +35,6 @@ public class CategoryService {
         }
 
         category.setFullCategoryName(fullName);
-
         categoryDao.insert(category);
     }
 
@@ -43,7 +43,6 @@ public class CategoryService {
             category.setParentCategoryId(0);
         }
 
-        // fullCategoryName 갱신
         int parentId = category.getParentCategoryId();
         String fullName = category.getName();
 
@@ -56,23 +55,17 @@ public class CategoryService {
 
         category.setFullCategoryName(fullName);
         categoryDao.update(category);
-
-        // 자식들도 fullName 갱신
         updateChildFullNames(category);
     }
 
-
-
     public boolean deleteCategory(int categoryId) {
-        // 자식 존재 여부 확인
         List<Category> children = categoryDao.findChildren(categoryId);
         if (children != null && !children.isEmpty()) {
-            return false; // 삭제 불가
+            return false;
         }
 
         return categoryDao.delete(categoryId);
     }
-
 
     public Category getCategoryById(int id) {
         return categoryDao.findById(id);
@@ -92,17 +85,25 @@ public class CategoryService {
         List<Category> children = categoryDao.findChildren(parent.getCategoryId());
 
         for (Category child : children) {
-            // 자식의 fullCategoryName 갱신
             String newFullName = parent.getFullCategoryName() + " > " + child.getName();
             child.setFullCategoryName(newFullName);
-
-            // 부모 레벨 + 1로 설정
             child.setLevel(parent.getLevel() + 1);
-
-            categoryDao.update(child); // DB 반영
-
-            // 재귀 호출로 하위도 계속 갱신
+            categoryDao.update(child);
             updateChildFullNames(child);
+        }
+    }
+
+    public List<Integer> getAllDescendantCategoryIds(int categoryId) {
+        List<Integer> result = new ArrayList<>();
+        collectDescendants(categoryId, result);
+        return result;
+    }
+
+    private void collectDescendants(int categoryId, List<Integer> collector) {
+        collector.add(categoryId);
+        List<Category> children = categoryDao.findChildren(categoryId);
+        for (Category child : children) {
+            collectDescendants(child.getCategoryId(), collector);
         }
     }
 }

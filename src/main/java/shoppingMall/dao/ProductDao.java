@@ -6,7 +6,9 @@ import shoppingMall.utils.JdbcDriver;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductDao {
     public void mapProductToCategory(int productId, int categoryId, int order) {
@@ -24,6 +26,35 @@ public class ProductDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public List<Product> findByCategoryIds(List<Integer> categoryIds) {
+        if (categoryIds == null || categoryIds.isEmpty()) return Collections.emptyList();
+
+        String placeholders = categoryIds.stream().map(id -> "?").collect(Collectors.joining(","));
+        String sql = "SELECT p.* FROM tb_product p " +
+                "JOIN tb_category_product_mapping cp ON p.no_product = cp.no_product " +
+                "WHERE cp.nb_category IN (" + placeholders + ")";
+
+        List<Product> products = new ArrayList<>();
+
+        try (Connection conn = JdbcDriver.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            for (int i = 0; i < categoryIds.size(); i++) {
+                ps.setInt(i + 1, categoryIds.get(i));
+            }
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    products.add(mapProduct(rs)); // 이건 기존에 Product 객체로 매핑하는 메서드
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
     }
 
     // 모든 상품 조회

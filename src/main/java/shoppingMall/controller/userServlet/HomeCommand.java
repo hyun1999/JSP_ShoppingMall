@@ -10,6 +10,7 @@ import shoppingMall.service.CategoryService;
 import shoppingMall.service.ProductService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeCommand implements Command {
@@ -19,7 +20,7 @@ public class HomeCommand implements Command {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 1. 카테고리 리스트는 항상 제공
+
         List<Category> categoryList = categoryService.getAllCategories();
         request.setAttribute("categoryList", categoryList);
 
@@ -29,14 +30,14 @@ public class HomeCommand implements Command {
         if (categoryIdParam != null && !categoryIdParam.isEmpty()) {
             try {
                 int categoryId = Integer.parseInt(categoryIdParam);
-                productList = productService.getProductsByCategory(categoryId);
+                List<Integer> allCategoryIds = categoryService.getAllDescendantCategoryIds(categoryId);
+                productList = productService.getProductsByCategoryIds(allCategoryIds);
             } catch (NumberFormatException e) {
                 productList = productService.getAllProducts();
             }
         } else {
             productList = productService.getAllProducts();
         }
-
         request.setAttribute("productList", productList);
         request.getRequestDispatcher("/indexForm.jsp").forward(request, response);
     }

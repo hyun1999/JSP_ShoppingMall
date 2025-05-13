@@ -14,6 +14,9 @@ public class ProductService {
     public List<Product> getAllProducts() {
         return productDao.findAllProducts();
     }
+    public List<Product> getProductsByCategoryIds(List<Integer> categoryIds) {
+        return productDao.findByCategoryIds(categoryIds);
+    }
 
     public void createProduct(Product product, Connection conn) throws SQLException {
         productDao.insertProduct(product, conn);
