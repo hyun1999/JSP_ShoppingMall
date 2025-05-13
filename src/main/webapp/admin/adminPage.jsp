@@ -9,7 +9,10 @@
 <body>
 <div class="container">
     <h2><%= session.getAttribute("userName") %> 관리자님, 반갑습니다.</h2>
-    <a href="logout.do" class="header-link">로그아웃</a> | <a href="manageCategory.do" class="header-link">카테고리 관리</a> | <a href="manageProduct.do" class="header-link">상품 관리</a>
+    <a href="logout.do" class="header-link">로그아웃</a>
+    | <a href="manageCategory.do" class="header-link">카테고리 관리</a>
+    | <a href="manageProduct.do" class="header-link">상품 관리</a>
+    | <a href="manageDisplayCategory.do" class="header-link">전시 카테고리 관리</a>
 
     <h3>회원가입 요청 목록</h3>
     <div class="card-container">

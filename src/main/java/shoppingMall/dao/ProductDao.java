@@ -180,5 +180,31 @@ public class ProductDao {
             }
         }
     }
+    public List<Product> findUnmappedProducts(int categoryId) {
+        String sql = """
+        SELECT * FROM tb_product
+        WHERE no_product NOT IN (
+            SELECT no_product FROM tb_category_product_mapping WHERE nb_category = ?
+        )
+    """;
+
+        List<Product> products = new ArrayList<>();
+
+        try (Connection conn = JdbcDriver.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, categoryId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    products.add(mapProduct(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
 
 }
