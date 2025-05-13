@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 항목 클릭 시 선택 처리
     dropdown.addEventListener("click", (e) => {
+        e.stopPropagation();
         const target = e.target.closest(".dropdown-item");
         if (!target) return;
 

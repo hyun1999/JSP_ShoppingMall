@@ -37,9 +37,12 @@
           <div id="dropdown-menu" class="dropdown-menu" style="display: none;">
             <div class="dropdown-item" data-value="all">전체</div>
             <c:forEach var="category" items="${categoryList}">
-              <div class="dropdown-item" data-value="${category.categoryId}">${category.name}</div>
+              <c:if test="${category.parentCategoryId == 0}">
+                <div class="dropdown-item" data-value="${category.categoryId}">${category.name}</div>
+              </c:if>
             </c:forEach>
           </div>
+
         </div>
 
         <input type="hidden" name="category" id="category-input" value="all">
