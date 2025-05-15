@@ -64,7 +64,7 @@ public class ManageProductCommand implements Command {
 
     private void createProduct(HttpServletRequest request) throws IOException, ServletException {
         Product product = extractProductFromRequest(request);
-        product.setNoProduct("P" + System.currentTimeMillis());
+        product.setNoProduct(String.valueOf(System.currentTimeMillis()));
         product.setNoRegister("admin");
         product.setDaFirstDate(LocalDateTime.now());
 

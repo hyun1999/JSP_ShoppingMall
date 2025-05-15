@@ -1,12 +1,12 @@
 package shoppingMall.dao;
 
 import shoppingMall.domain.Content;
+
 import java.io.InputStream;
 import java.sql.*;
 
 public class ContentDao {
 
-    // 이미지 저장 (BLOB 형태로)
     public void insertContent(Content content, InputStream fileInputStream, Connection conn) throws SQLException {
         String sql = "INSERT INTO TB_CONTENT (" +
                 "id_file, nm_org_file, nm_save_file, nm_file_path, bo_save_file, " +
@@ -18,7 +18,7 @@ public class ContentDao {
             pstmt.setString(2, content.getOriginalFileName());
             pstmt.setString(3, content.getSavedFileName());
             pstmt.setString(4, content.getFilePath());
-            pstmt.setBinaryStream(5, fileInputStream);
+            pstmt.setBinaryStream(5, fileInputStream); // BLOB
             pstmt.setString(6, content.getFileExt());
             pstmt.setString(7, content.getFileType());
             pstmt.setString(8, content.getServiceId());
@@ -28,7 +28,6 @@ public class ContentDao {
         }
     }
 
-    // 이미지 조회
     public Content findById(String idFile, Connection conn) throws SQLException {
         String sql = "SELECT * FROM TB_CONTENT WHERE id_file = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -44,7 +43,10 @@ public class ContentDao {
                     content.setFileType(rs.getString("cd_file_type"));
                     content.setServiceId(rs.getString("id_service"));
                     content.setNoRegister(rs.getString("no_register"));
-                    content.setFirstDate(rs.getTimestamp("da_first_date").toLocalDateTime());
+                    Timestamp ts = rs.getTimestamp("da_first_date");
+                    if (ts != null) {
+                        content.setFirstDate(ts.toLocalDateTime());
+                    }
                     return content;
                 }
             }

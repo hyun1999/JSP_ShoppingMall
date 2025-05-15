@@ -1,62 +1,49 @@
 package shoppingMall.controller.adminServlet;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import shoppingMall.controller.Command;
-import shoppingMall.domain.Content;
+import shoppingMall.dto.ContentStreamDto;
 import shoppingMall.service.ContentService;
-import shoppingMall.utils.JdbcDriver;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.Connection;
 
 public class ImageCommand implements Command {
 
     private final ContentService contentService = new ContentService();
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         String idFile = request.getParameter("idFile");
 
         if (idFile == null || idFile.isEmpty()) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing idFile parameter");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return null;
         }
 
-        try (Connection conn = JdbcDriver.getConnection()) {
-            Content content = contentService.getContentById(idFile, conn);
-
-            if (content == null || content.getSavedFileName() == null) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Image not found");
+        try {
+            ContentStreamDto dto = contentService.getImageStreamById(idFile);
+            if (dto == null || dto.getInputStream() == null) {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return null;
             }
 
-            String uploadPath = content.getFilePath();
-            String savedFileName = content.getSavedFileName();
-            File imageFile = new File(uploadPath, savedFileName);
-            if (!imageFile.exists()) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "File does not exist on server");
-                return null;
-            }
+            String ext = dto.getContent().getFileExt();
+            if (ext == null || ext.isBlank()) ext = "jpeg";
+            response.setContentType("image/" + ext.toLowerCase());
 
-            response.setContentType("image/" + content.getFileExt());
-            response.setContentLengthLong(imageFile.length());
-
-            try (FileInputStream fis = new FileInputStream(imageFile);
-                 OutputStream os = response.getOutputStream()) {
+            try (InputStream is = dto.getInputStream(); OutputStream os = response.getOutputStream()) {
                 byte[] buffer = new byte[8192];
-                int read;
-                while ((read = fis.read(buffer)) != -1) {
-                    os.write(buffer, 0, read);
+                int len;
+                while ((len = is.read(buffer)) != -1) {
+                    os.write(buffer, 0, len);
                 }
+                os.flush();
             }
-
         } catch (Exception e) {
-            throw new ServletException("Failed to load image", e);
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
         return null;
