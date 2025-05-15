@@ -15,15 +15,16 @@ import java.io.OutputStream;
 import java.sql.Connection;
 
 public class ImageCommand implements Command {
+
     private final ContentService contentService = new ContentService();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idFile = request.getParameter("idFile");
 
         if (idFile == null || idFile.isEmpty()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing idFile parameter");
-            return;
+            return null;
         }
 
         try (Connection conn = JdbcDriver.getConnection()) {
@@ -31,7 +32,7 @@ public class ImageCommand implements Command {
 
             if (content == null || content.getSavedFileName() == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Image not found");
-                return;
+                return null;
             }
 
             String uploadPath = content.getFilePath();
@@ -39,7 +40,7 @@ public class ImageCommand implements Command {
             File imageFile = new File(uploadPath, savedFileName);
             if (!imageFile.exists()) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "File does not exist on server");
-                return;
+                return null;
             }
 
             response.setContentType("image/" + content.getFileExt());
@@ -57,5 +58,7 @@ public class ImageCommand implements Command {
         } catch (Exception e) {
             throw new ServletException("Failed to load image", e);
         }
+
+        return null;
     }
 }

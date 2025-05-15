@@ -1,6 +1,5 @@
 package shoppingMall.controller.displayCategoryServlet;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import shoppingMall.controller.Command;
@@ -8,21 +7,19 @@ import shoppingMall.domain.Category;
 import shoppingMall.domain.enums.YnFlag;
 import shoppingMall.service.CategoryService;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class DisplayCategoryInsertCommand implements Command {
     private final CategoryService categoryService = new CategoryService();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         int parentId = Integer.parseInt(request.getParameter("parentCategoryId"));
         int parentLevel = categoryService.getCategoryLevel(parentId);
 
         if (parentLevel >= 3) {
             request.setAttribute("error", "최대 3단계까지만 생성 가능합니다.");
-            request.getRequestDispatcher("/admin/manageDisplayCategory.jsp").forward(request, response);
-            return;
+            return "/admin/manageDisplayCategory.jsp";
         }
 
         Category category = new Category();
@@ -38,6 +35,6 @@ public class DisplayCategoryInsertCommand implements Command {
         category.setCreatedAt(LocalDateTime.now());
 
         categoryService.createCategory(category);
-        response.sendRedirect("manageDisplayCategory.do");
+        return "redirect:/manageDisplayCategory.do";
     }
 }

@@ -1,18 +1,15 @@
 package shoppingMall.controller.orderServlet;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import shoppingMall.controller.Command;
 import shoppingMall.dao.OrderItemDao;
 
-import java.io.IOException;
-
 public class CancelOrderCommand implements Command {
     private final OrderItemDao orderItemDao = new OrderItemDao();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         String orderId = request.getParameter("orderId");
 
         boolean result = orderItemDao.cancelOrderIfBeforeShipping(orderId);
@@ -23,6 +20,6 @@ public class CancelOrderCommand implements Command {
             request.setAttribute("message", "배송이 시작된 주문은 취소할 수 없습니다.");
         }
 
-        request.getRequestDispatcher("/order/orderCancelResult.jsp").forward(request, response);
+        return "/order/orderCancelResult.jsp";
     }
 }

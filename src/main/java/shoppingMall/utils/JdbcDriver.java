@@ -31,9 +31,9 @@ public class JdbcDriver {
             config.setUsername(prop.getProperty("jdbc.user"));
             config.setPassword(prop.getProperty("jdbc.password"));
             config.setDriverClassName("oracle.jdbc.OracleDriver");
-            config.setMaximumPoolSize(1);
+            config.setMaximumPoolSize(2);
             config.setMinimumIdle(1);
-            config.setIdleTimeout(30000);
+            config.setIdleTimeout(10000);
 
             dataSource = new HikariDataSource(config);
             System.out.println("HikariCP 초기화 완료");

@@ -9,26 +9,25 @@ import shoppingMall.controller.Command;
 import shoppingMall.domain.Content;
 import shoppingMall.domain.Product;
 import shoppingMall.service.*;
-
 import shoppingMall.utils.JdbcDriver;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @MultipartConfig
 public class ManageProductCommand implements Command {
+
     private final ProductService productService = new ProductService();
     private final CategoryService categoryService = new CategoryService();
     private final CategoryProductMappingService mappingService = new CategoryProductMappingService();
     private final ContentService contentService = new ContentService();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getMethod().equalsIgnoreCase("GET")) {
             String noProduct = request.getParameter("noProduct");
 
@@ -40,8 +39,7 @@ public class ManageProductCommand implements Command {
             request.setAttribute("categoryList", categoryService.getAllCategories());
             request.setAttribute("productList", productService.getAllProducts());
 
-            request.getRequestDispatcher("/admin/productPage.jsp").forward(request, response);
-            return;
+            return "/admin/productPage.jsp";
         }
 
         String action = request.getParameter("action");
@@ -49,22 +47,22 @@ public class ManageProductCommand implements Command {
 
         switch (action) {
             case "create":
-                createProduct(request, response);
+                createProduct(request);
                 break;
             case "update":
-                updateProduct(request, response);
+                updateProduct(request);
                 break;
             case "delete":
-                deleteProduct(request, response);
+                deleteProduct(request);
                 break;
             default:
                 throw new ServletException("Invalid or missing action");
         }
 
-        response.sendRedirect("manageProduct.do");
+        return "redirect:/manageProduct.do";
     }
 
-    private void createProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void createProduct(HttpServletRequest request) throws IOException, ServletException {
         Product product = extractProductFromRequest(request);
         product.setNoProduct("P" + System.currentTimeMillis());
         product.setNoRegister("admin");
@@ -72,19 +70,15 @@ public class ManageProductCommand implements Command {
 
         String categoryIdStr = request.getParameter("categoryId");
 
-        Connection conn = null;
-        try {
-            conn = JdbcDriver.getConnection();
+        try (Connection conn = JdbcDriver.getConnection()) {
             conn.setAutoCommit(false);
 
-            // 파일 업로드 처리 (파일을 로컬에 저장하지 않고 DB에 저장)
             Part filePart = request.getPart("productImage");
             if (filePart != null && filePart.getSize() > 0) {
                 String originalFileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
                 String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
                 String savedFileName = UUID.randomUUID().toString().replace("-", "").substring(0, 20) + fileExtension;
 
-                // InputStream을 사용하여 파일을 DB에 저장
                 try (InputStream fileInputStream = filePart.getInputStream()) {
                     Content content = new Content();
                     content.setIdFile(savedFileName);
@@ -96,7 +90,7 @@ public class ManageProductCommand implements Command {
                     content.setNoRegister("admin");
                     content.setFirstDate(LocalDateTime.now());
 
-                    contentService.saveContent(content, fileInputStream, conn); // Connection을 전달
+                    contentService.saveContent(content, fileInputStream, conn);
                     product.setIdFile(savedFileName);
                 }
             }
@@ -110,14 +104,11 @@ public class ManageProductCommand implements Command {
 
             conn.commit();
         } catch (Exception e) {
-            if (conn != null) try { conn.rollback(); } catch (Exception ignore) {}
             throw new ServletException("상품 등록 실패", e);
-        } finally {
-            if (conn != null) try { conn.close(); } catch (Exception ignore) {}
         }
     }
 
-    private void updateProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void updateProduct(HttpServletRequest request) throws IOException, ServletException {
         Product product = extractProductFromRequest(request);
         product.setNoProduct(request.getParameter("noProduct"));
         product.setNoRegister("admin");
@@ -126,9 +117,7 @@ public class ManageProductCommand implements Command {
         Part filePart = request.getPart("productImage");
         String existingFileName = request.getParameter("existingFileName");
 
-        Connection conn = null;
-        try {
-            conn = JdbcDriver.getConnection();
+        try (Connection conn = JdbcDriver.getConnection()) {
             conn.setAutoCommit(false);
 
             if (filePart != null && filePart.getSize() > 0) {
@@ -136,7 +125,6 @@ public class ManageProductCommand implements Command {
                 String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
                 String savedFileName = UUID.randomUUID().toString().replace("-", "").substring(0, 20) + fileExtension;
 
-                // InputStream을 사용하여 파일을 DB에 저장
                 try (InputStream fileInputStream = filePart.getInputStream()) {
                     Content content = new Content();
                     content.setIdFile(savedFileName);
@@ -148,7 +136,7 @@ public class ManageProductCommand implements Command {
                     content.setNoRegister("admin");
                     content.setFirstDate(LocalDateTime.now());
 
-                    contentService.saveContent(content, fileInputStream, conn); // Connection을 전달
+                    contentService.saveContent(content, fileInputStream, conn);
                     product.setIdFile(savedFileName);
                 }
             } else {
@@ -158,14 +146,11 @@ public class ManageProductCommand implements Command {
             productService.updateProduct(product, conn);
             conn.commit();
         } catch (Exception e) {
-            if (conn != null) try { conn.rollback(); } catch (Exception ignore) {}
             throw new ServletException("상품 수정 실패", e);
-        } finally {
-            if (conn != null) try { conn.close(); } catch (Exception ignore) {}
         }
     }
 
-    private void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private void deleteProduct(HttpServletRequest request) throws ServletException {
         String noProduct = request.getParameter("noProduct");
         productService.deleteProduct(noProduct);
     }

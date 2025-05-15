@@ -1,6 +1,5 @@
 package shoppingMall.controller.displayCategoryServlet;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import shoppingMall.dao.ProductDao;
@@ -9,7 +8,6 @@ import shoppingMall.domain.Product;
 import shoppingMall.service.CategoryService;
 import shoppingMall.controller.Command;
 
-import java.io.IOException;
 import java.util.List;
 
 public class DisplayCategoryListCommand implements Command {
@@ -17,7 +15,7 @@ public class DisplayCategoryListCommand implements Command {
     private final ProductDao productDao = new ProductDao();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         List<Category> categoryList = categoryService.getAllCategories();
         request.setAttribute("categoryList", categoryList);
 
@@ -32,6 +30,6 @@ public class DisplayCategoryListCommand implements Command {
             request.setAttribute("selectedCategoryId", categoryId);
         }
 
-        request.getRequestDispatcher("/admin/manageDisplayCategory.jsp").forward(request, response);
+        return "/admin/manageDisplayCategory.jsp";
     }
 }

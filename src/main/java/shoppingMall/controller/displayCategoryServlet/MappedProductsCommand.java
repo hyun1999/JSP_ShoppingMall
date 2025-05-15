@@ -15,7 +15,7 @@ public class MappedProductsCommand implements Command {
     private final ProductDao productDao = new ProductDao();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException, jakarta.servlet.ServletException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         List<Category> categoryList = categoryService.getAllCategories();
         request.setAttribute("categoryList", categoryList);
 
@@ -26,7 +26,7 @@ public class MappedProductsCommand implements Command {
             request.setAttribute("productList", productList);
             request.setAttribute("selectedCategoryId", categoryId);
         }
-        response.sendRedirect(request.getContextPath() + "/mapProductToCategoryPage.do");
 
+        return "redirect:/mapProductToCategoryPage.do";
     }
 }

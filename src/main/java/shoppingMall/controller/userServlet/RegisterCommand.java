@@ -1,47 +1,38 @@
 package shoppingMall.controller.userServlet;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import shoppingMall.controller.Command;
 import shoppingMall.exception.InvalidUserIdException;
 import shoppingMall.service.UserService;
 
-import java.io.IOException;
-
 public class RegisterCommand implements Command {
     private final UserService userService = new UserService();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 이메일 중복 체크
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         String userId = request.getParameter("userId");
 
-        // 이메일이 중복된 경우
         if (!userService.validateDuplicate(userId)) {
             request.setAttribute("errorMessage", "중복된 이메일입니다.");
-            request.getRequestDispatcher("/user/register.jsp").forward(request, response);
-            return;
+            return "/user/register.jsp";
         }
 
-        // 빈값이 들어올 경우
         if (!userService.nullCheck(request)) {
             request.setAttribute("errorMessage", "모든 칸을 입력해주세요.");
-            request.getRequestDispatcher("/user/register.jsp").forward(request, response);
-            return;
+            return "/user/register.jsp";
         }
 
-        // 이메일이 사용 가능한 경우에만 회원가입 진행
         try {
             if (!userService.registerUser(request)) {
                 request.setAttribute("errorMessage", "회원가입 실패. 다시 시도해 주세요.");
-                request.getRequestDispatcher("/user/register.jsp").forward(request, response);
+                return "/user/register.jsp";
             } else {
-                response.sendRedirect(request.getContextPath() + "/index.jsp");
+                return "redirect:/index.jsp";
             }
         } catch (InvalidUserIdException e) {
             request.setAttribute("errorMessage", e.getMessage());
-            request.getRequestDispatcher("/user/register.jsp").forward(request, response);
+            return "/user/register.jsp";
         }
     }
 }

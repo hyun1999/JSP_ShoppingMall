@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 
 public class UnmapProductFromCategoryCommand implements Command {
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws java.io.IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         int categoryId = Integer.parseInt(request.getParameter("categoryId"));
         String productId = request.getParameter("productId");
 
@@ -24,6 +24,6 @@ public class UnmapProductFromCategoryCommand implements Command {
             e.printStackTrace();
         }
 
-        response.sendRedirect("mappedProducts.do?categoryId=" + categoryId);
+        return "redirect:/mappedProducts.do?categoryId=" + categoryId;
     }
 }

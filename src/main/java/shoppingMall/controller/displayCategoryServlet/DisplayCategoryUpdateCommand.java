@@ -1,6 +1,5 @@
 package shoppingMall.controller.displayCategoryServlet;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import shoppingMall.domain.Category;
@@ -8,13 +7,11 @@ import shoppingMall.domain.enums.YnFlag;
 import shoppingMall.service.CategoryService;
 import shoppingMall.controller.Command;
 
-import java.io.IOException;
-
 public class DisplayCategoryUpdateCommand implements Command {
     private final CategoryService categoryService = new CategoryService();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         Category category = new Category();
         category.setCategoryId(Integer.parseInt(request.getParameter("categoryId")));
         category.setName(request.getParameter("name"));
@@ -24,6 +21,6 @@ public class DisplayCategoryUpdateCommand implements Command {
         category.setUsed(YnFlag.fromDbValue(request.getParameter("used")));
 
         categoryService.updateCategory(category);
-        response.sendRedirect("manageDisplayCategory.do");
+        return "redirect:/manageDisplayCategory.do";
     }
 }

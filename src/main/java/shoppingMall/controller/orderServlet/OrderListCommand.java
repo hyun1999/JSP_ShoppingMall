@@ -1,6 +1,5 @@
-package shoppingMall.controller.userServlet;
+package shoppingMall.controller.orderServlet;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -8,24 +7,22 @@ import shoppingMall.controller.Command;
 import shoppingMall.domain.Order;
 import shoppingMall.service.OrderService;
 
-import java.io.IOException;
 import java.util.List;
 
 public class OrderListCommand implements Command {
     private final OrderService orderService = new OrderService();
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
-        String userId = (String) session.getAttribute("userId");
-
-        if (userId == null) {
-            response.sendRedirect("login.do");
-            return;
+        if (session == null || session.getAttribute("userId") == null) {
+            return "redirect:/login.do";
         }
 
+        String userId = (String) session.getAttribute("userId");
         List<Order> orderList = orderService.getOrdersByUserId(userId);
         request.setAttribute("orderList", orderList);
-        request.getRequestDispatcher("/order/orderList.jsp").forward(request, response);
+
+        return "/order/orderList.jsp";
     }
 }

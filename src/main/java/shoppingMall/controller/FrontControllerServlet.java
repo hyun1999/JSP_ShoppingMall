@@ -7,12 +7,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import shoppingMall.controller.adminServlet.*;
-import shoppingMall.controller.adminServlet.command.UpdateMemberCommand;
 import shoppingMall.controller.cart.*;
 import shoppingMall.controller.displayCategoryServlet.*;
 import shoppingMall.controller.orderServlet.*;
 import shoppingMall.controller.userServlet.*;
-import shoppingMall.controller.userServlet.OrderListCommand;
 import shoppingMall.controller.userServlet.command.DeleteRequestCommand;
 import shoppingMall.controller.userServlet.command.LogoutCommand;
 
@@ -59,15 +57,12 @@ public class FrontControllerServlet extends HttpServlet {
         routeMap.put("/orderList.do", new OrderListCommand());
         routeMap.put("/cancelOrder.do", new CancelOrderCommand());
         routeMap.put("/orderDetail.do", new OrderDetailCommand());
-        // ▼ 전시 카테고리 관리 관련 Command 추가
+        // 전시 카테고리 관리
         routeMap.put("/manageDisplayCategory.do", new DisplayCategoryListCommand());
         routeMap.put("/addDisplayCategory.do", new DisplayCategoryInsertCommand());
         routeMap.put("/updateDisplayCategory.do", new DisplayCategoryUpdateCommand());
-
-        // ▼ 상품 매핑 관련 Command 추가
-        routeMap.put("/mapProductToCategoryPage.do", new ProductCategoryMappingPageCommand()); // 페이지 진입
-        routeMap.put("/mapProductToCategory.do", new ProductCategoryMappingInsertCommand());   // 매핑 등록
-
+        routeMap.put("/mapProductToCategoryPage.do", new ProductCategoryMappingPageCommand());
+        routeMap.put("/mapProductToCategory.do", new ProductCategoryMappingInsertCommand());
         routeMap.put("/deleteDisplayCategory.do", new DisplayCategoryDeleteCommand());
         routeMap.put("/mappedProducts.do", new MappedProductsCommand());
         routeMap.put("/unmapProductFromCategory.do", new UnmapProductFromCategoryCommand());
@@ -81,7 +76,14 @@ public class FrontControllerServlet extends HttpServlet {
 
         Command command = routeMap.get(path);
         if (command != null) {
-            command.execute(request, response);
+            String url = command.execute(request, response);
+            if (url != null) {
+                if (url.startsWith("redirect:")) {
+                    response.sendRedirect(contextPath + url.substring("redirect:".length()));
+                } else {
+                    request.getRequestDispatcher(url).forward(request, response);
+                }
+            }
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
