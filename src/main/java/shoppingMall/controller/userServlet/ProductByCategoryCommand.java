@@ -17,13 +17,23 @@ public class ProductByCategoryCommand implements Command {
         String categoryIdParam = request.getParameter("categoryId");
 
         if (categoryIdParam != null) {
-            int categoryId = Integer.parseInt(categoryIdParam);
-            List<Product> products = productService.getProductsByCategory(categoryId);
-            request.setAttribute("productList", products);
-            return "/indexForm.jsp";
+            try {
+                long rawId = Long.parseLong(categoryIdParam);
+                int categoryId = Math.abs((int)(rawId % Integer.MAX_VALUE));
+
+                List<Product> products = productService.getProductsByCategory(categoryId);
+                request.setAttribute("productList", products);
+                return "/indexForm.jsp";
+
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                request.setAttribute("error", "잘못된 categoryId 형식입니다.");
+                return "/errorPage.jsp";
+            }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return null;
+            request.setAttribute("error", "categoryId가 없습니다.");
+            return "/errorPage.jsp";
         }
     }
 }

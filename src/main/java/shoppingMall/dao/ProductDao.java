@@ -112,14 +112,14 @@ public class ProductDao {
 
         return products;
     }
-    public void mapProductToCategory(int productId, int categoryId, int order) {
+    public void mapProductToCategory(long productId, long categoryId, int order) {
         String sql = "INSERT INTO tb_category_product_mapping (no_product, nb_category, cn_order) VALUES (?, ?, ?)";
 
         try (Connection conn = JdbcDriver.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, productId);
-            ps.setInt(2, categoryId);
+            ps.setLong(1, productId);
+            ps.setLong(2, categoryId);
             ps.setInt(3, order);
 
             ps.executeUpdate();
@@ -128,6 +128,7 @@ public class ProductDao {
             e.printStackTrace();
         }
     }
+
     public List<Product> findByCategoryIds(List<Integer> categoryIds) {
         if (categoryIds == null || categoryIds.isEmpty()) return Collections.emptyList();
 

@@ -12,17 +12,21 @@ public class ProductCategoryMappingInsertCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        int categoryId = Integer.parseInt(request.getParameter("nbCategory"));
+        long rawCategoryId = Long.parseLong(request.getParameter("nbCategory"));
+        int categoryId = Math.abs((int)(rawCategoryId % Integer.MAX_VALUE));
 
         if (categoryService.hasChildCategories(categoryId)) {
             request.setAttribute("error", "상품은 최하위 카테고리에만 매핑할 수 있습니다.");
             return "/admin/manageDisplayCategory.jsp";
         }
 
-        int productId = Integer.parseInt(request.getParameter("noProduct"));
+        long rawProductId = Long.parseLong(request.getParameter("noProduct"));
+        int productId = Math.abs((int)(rawProductId % Integer.MAX_VALUE));
+
         int order = Integer.parseInt(request.getParameter("cnOrder"));
 
         productDao.mapProductToCategory(productId, categoryId, order);
         return "redirect:/manageDisplayCategory.do?selectedCategoryId=" + categoryId;
     }
+
 }

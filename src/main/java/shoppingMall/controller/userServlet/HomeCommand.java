@@ -26,18 +26,31 @@ public class HomeCommand implements Command {
         String sort = request.getParameter("sort");
 
         List<Product> productList;
+        List<Integer> categoryIds = null;
 
         try {
             boolean hasKeyword = query != null && !query.isBlank();
-            List<Integer> categoryIds = null;
 
             if (categoryParam != null && !categoryParam.isBlank() && !"all".equals(categoryParam)) {
                 try {
-                    int categoryId = Integer.parseInt(categoryParam.trim());
+                    long rawCategoryId = Long.parseLong(categoryParam.trim());
+                    int categoryId = Math.abs((int)(rawCategoryId % Integer.MAX_VALUE));
+
+                    // ✅ 카테고리 ID 목록 가져오기
                     categoryIds = categoryService.getAllDescendantCategoryIds(categoryId);
-                } catch (NumberFormatException ignored) {}
+
+                    // ✅ categoryIds가 null이거나 비어있다면 현재 ID라도 포함시키기
+                    if (categoryIds == null || categoryIds.isEmpty()) {
+                        categoryIds = List.of(categoryId);
+                    }
+
+                    System.out.println("Resolved categoryIds: " + categoryIds);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid categoryParam: " + categoryParam);
+                }
             }
 
+            // ✅ 상품 리스트 조건별 조회
             if (hasKeyword) {
                 productList = productService.searchProductsByCategoryAndKeyword(categoryIds, query);
             } else if (categoryIds != null) {
@@ -46,6 +59,7 @@ public class HomeCommand implements Command {
                 productList = productService.getAllProducts();
             }
 
+            // ✅ 정렬
             if (sort != null) {
                 switch (sort) {
                     case "price_asc":
@@ -62,10 +76,13 @@ public class HomeCommand implements Command {
             productList = productService.getAllProducts();
         }
 
+        // ✅ 결과 전달
         request.setAttribute("productList", productList);
         request.setAttribute("query", query);
         request.setAttribute("selectedCategory", categoryParam);
         request.setAttribute("selectedSort", sort);
+
+        System.out.println("Product list size: " + (productList != null ? productList.size() : 0));
 
         return "/indexForm.jsp";
     }

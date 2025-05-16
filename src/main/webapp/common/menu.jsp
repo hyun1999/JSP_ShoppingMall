@@ -17,7 +17,6 @@
   <ul class="menu">
     <% for (Category top : topCategories) { %>
     <li class="dropdown">
-<%--      <a href="home.do?categoryId=<%= top.getCategoryId() %>"><%= top.getName() %></a>--%>
       <a href="home.do?category=<%= top.getCategoryId() %>"><%= top.getName() %></a>
 
       <% List<Category> secondLevel = categoryMap.getOrDefault(top.getCategoryId(), new ArrayList<>()); %>

@@ -4,10 +4,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import shoppingMall.controller.Command;
 import shoppingMall.domain.Category;
-import shoppingMall.domain.enums.YnFlag;
+import shoppingMall.dto.CategoryDto;
 import shoppingMall.service.CategoryService;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class ManageCategoryCommand implements Command {
@@ -17,55 +16,46 @@ public class ManageCategoryCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String action = request.getParameter("action");
 
-        if (request.getMethod().equals("GET")) {
+        if ("GET".equalsIgnoreCase(request.getMethod())) {
             List<Category> categoryList = categoryService.getAllCategories();
             request.setAttribute("categoryList", categoryList);
             return "/admin/categoryPage.jsp";
         }
 
         if ("create".equals(action)) {
-            Category category = new Category();
-            category.setName(request.getParameter("name"));
-            category.setDescription(request.getParameter("description"));
-
-            String parentIdStr = request.getParameter("parentId");
-            if (parentIdStr != null && !parentIdStr.isEmpty()) {
-                category.setParentCategoryId(Integer.parseInt(parentIdStr));
-            } else {
-                category.setParentCategoryId(0);
-            }
-
-            category.setUsed(YnFlag.YES);
-            category.setDeleted(YnFlag.NO);
-            category.setCreatedAt(LocalDateTime.now());
-            category.setCreatedBy("admin");
-
-            categoryService.createCategory(category);
+            CategoryDto dto = new CategoryDto();
+            dto.setName(request.getParameter("name"));
+            dto.setDescription(request.getParameter("description"));
+            dto.setParentCategoryId(parseInteger(request.getParameter("parentId")));
+            categoryService.createCategory(dto.toEntity());
 
         } else if ("update".equals(action)) {
             int id = Integer.parseInt(request.getParameter("categoryId"));
             Category category = categoryService.getCategoryById(id);
+
             category.setName(request.getParameter("name"));
             category.setDescription(request.getParameter("description"));
-
-            String parentIdStr = request.getParameter("parentId");
-            if (parentIdStr != null && !parentIdStr.isEmpty()) {
-                category.setParentCategoryId(Integer.parseInt(parentIdStr));
-            } else {
-                category.setParentCategoryId(0);
-            }
+            Integer parentId = parseInteger(request.getParameter("parentId"));
+            category.setParentCategoryId(parentId != null ? parentId : 0);
 
             categoryService.updateCategory(category);
 
         } else if ("delete".equals(action)) {
             int id = Integer.parseInt(request.getParameter("categoryId"));
             categoryService.deleteCategory(id);
-
             return "redirect:/manageCategory.do";
         }
 
         List<Category> categoryList = categoryService.getAllCategories();
         request.setAttribute("categoryList", categoryList);
         return "/admin/categoryPage.jsp";
+    }
+
+    private Integer parseInteger(String value) {
+        try {
+            return (value != null && !value.isEmpty()) ? Integer.parseInt(value) : null;
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }
