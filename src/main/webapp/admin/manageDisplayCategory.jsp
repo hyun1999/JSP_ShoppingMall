@@ -11,8 +11,6 @@
 </head>
 <body>
 <div class="admin-container">
-
-  <!-- ✅ 네비게이션 바 -->
   <div class="admin-header">
     <div class="nav-left">
       <a href="adminPage.do" class="header-link">관리자페이지</a>
@@ -26,17 +24,14 @@
     </div>
   </div>
 
-  <!-- ✅ 에러 메시지 -->
   <c:if test="${not empty error}">
     <div class="error-message">
         ${error}
     </div>
   </c:if>
 
-  <!-- ① 전시 카테고리 등록 -->
   <section class="category-section">
     <h2>① 전시 카테고리 등록</h2>
-
     <form action="addDisplayCategory.do" method="post" class="category-form">
       <div class="form-row"><label>카테고리명:</label> <input type="text" name="name" required /></div>
       <div class="form-row"><label>설명:</label> <input type="text" name="description" /></div>
@@ -60,42 +55,8 @@
         <input type="submit" value="카테고리 등록" />
       </div>
     </form>
-
-    <!-- ✅ 카테고리 목록 -->
-    <div class="category-list">
-      <c:forEach var="cat" items="${categoryList}">
-        <div class="category-item">
-          <form action="updateDisplayCategory.do" method="post" class="category-inline-form">
-            <input type="hidden" name="categoryId" value="${cat.categoryId}" />
-            <input type="text" name="name" value="${cat.name}" />
-            <input type="text" name="description" value="${cat.description}" />
-            <input type="number" name="order" value="${cat.order}" />
-            <select name="used">
-              <option value="Y" ${cat.used.name() == 'Y' ? 'selected' : ''}>Y</option>
-              <option value="N" ${cat.used.name() == 'N' ? 'selected' : ''}>N</option>
-            </select>
-            <select name="parentCategoryId">
-              <option value="0" ${cat.parentCategoryId == 0 ? 'selected' : ''}>최상위</option>
-              <c:forEach var="opt" items="${categoryList}">
-                <c:if test="${opt.categoryId != cat.categoryId}">
-                  <option value="${opt.categoryId}" ${opt.categoryId == cat.parentCategoryId ? 'selected' : ''}>
-                      ${opt.fullCategoryName}
-                  </option>
-                </c:if>
-              </c:forEach>
-            </select>
-            <input type="submit" value="수정" />
-          </form>
-          <form action="deleteDisplayCategory.do" method="post" class="category-delete-form">
-            <input type="hidden" name="categoryId" value="${cat.categoryId}" />
-            <input type="submit" value="삭제" />
-          </form>
-        </div>
-      </c:forEach>
-    </div>
   </section>
 
-  <!-- ② 상품 매핑 -->
   <section class="mapping-section">
     <h2>② 상품 매핑</h2>
     <form action="mapProductToCategory.do" method="post" class="mapping-form">
@@ -135,7 +96,6 @@
     </form>
   </section>
 
-  <!-- ③ 매핑된 상품 목록 -->
   <section class="mapped-section">
     <h2>③ 매핑된 상품 목록</h2>
     <form action="manageDisplayCategory.do" method="get" class="category-selector-form">

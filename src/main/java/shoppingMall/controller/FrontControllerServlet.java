@@ -12,7 +12,6 @@ import shoppingMall.controller.displayCategoryServlet.*;
 import shoppingMall.controller.orderServlet.*;
 import shoppingMall.controller.userServlet.*;
 import shoppingMall.controller.userServlet.command.DeleteRequestCommand;
-import shoppingMall.controller.userServlet.command.LogoutCommand;
 
 import java.io.IOException;
 import java.util.HashMap;

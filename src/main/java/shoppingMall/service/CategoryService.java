@@ -23,7 +23,6 @@ public class CategoryService {
             category.setParentCategoryId(0);
         }
 
-        // 자동 fullCategoryName 생성
         int parentId = category.getParentCategoryId();
         String fullName = category.getName();
 

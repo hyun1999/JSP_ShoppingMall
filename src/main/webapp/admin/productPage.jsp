@@ -56,15 +56,15 @@
             <label>배송비</label>
             <input type="number" name="qtDeliveryFee" value="${selectedProduct.qtDeliveryFee}" />
 
-            <label>카테고리</label>
-            <select name="categoryId" required>
-                <option value="">카테고리 선택</option>
-                <c:forEach var="category" items="${categoryList}">
-                    <option value="${category.categoryId}" ${category.categoryId == selectedProduct.categoryId ? "selected" : ""}>
-                            ${category.name}
-                    </option>
-                </c:forEach>
-            </select>
+<%--            <label>카테고리</label>--%>
+<%--            <select name="categoryId" required>--%>
+<%--                <option value="">카테고리 선택</option>--%>
+<%--                <c:forEach var="category" items="${categoryList}">--%>
+<%--                    <option value="${category.categoryId}" ${category.categoryId == selectedProduct.categoryId ? "selected" : ""}>--%>
+<%--                            ${category.name}--%>
+<%--                    </option>--%>
+<%--                </c:forEach>--%>
+<%--            </select>--%>
 
             <label>상품 이미지</label>
             <input type="file" name="productImage" />

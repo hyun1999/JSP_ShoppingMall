@@ -1,4 +1,4 @@
-package shoppingMall.controller.userServlet.command;
+package shoppingMall.controller.userServlet;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

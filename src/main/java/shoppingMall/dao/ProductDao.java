@@ -76,7 +76,6 @@ public class ProductDao {
         return products;
     }
 
-
     public List<Product> findByCategoryIdsSorted(List<Integer> categoryIds, String sort) {
         if (categoryIds == null || categoryIds.isEmpty()) return Collections.emptyList();
 
@@ -112,13 +111,14 @@ public class ProductDao {
 
         return products;
     }
-    public void mapProductToCategory(long productId, long categoryId, int order) {
+
+    public void mapProductToCategory(String productId, long categoryId, int order) {
         String sql = "INSERT INTO tb_category_product_mapping (no_product, nb_category, cn_order) VALUES (?, ?, ?)";
 
         try (Connection conn = JdbcDriver.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setLong(1, productId);
+            ps.setString(1, productId);
             ps.setLong(2, categoryId);
             ps.setInt(3, order);
 
@@ -148,7 +148,7 @@ public class ProductDao {
 
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    products.add(mapProduct(rs)); // 이건 기존에 Product 객체로 매핑하는 메서드
+                    products.add(mapProduct(rs));
                 }
             }
 
@@ -159,7 +159,51 @@ public class ProductDao {
         return products;
     }
 
-    // 모든 상품 조회
+    public List<Product> findProductsByCategory(int categoryId) {
+        String sql = """
+        SELECT p.*
+        FROM tb_product p
+        JOIN tb_category_product_mapping m ON p.no_product = m.no_product
+        WHERE m.nb_category = ?
+        ORDER BY m.cn_order
+        """;
+
+        List<Product> products = new ArrayList<>();
+
+        try (Connection conn = JdbcDriver.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, categoryId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    products.add(mapProduct(rs));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
+
+    public boolean existsProductCategoryMapping(String productId, long categoryId) {
+        String sql = "SELECT 1 FROM tb_category_product_mapping WHERE no_product = ? AND nb_category = ?";
+        try (Connection conn = JdbcDriver.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, productId);
+            ps.setLong(2, categoryId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public List<Product> findAllProducts() {
         String sql = "SELECT * FROM tb_product";
         List<Product> products = new ArrayList<>();
@@ -179,7 +223,6 @@ public class ProductDao {
         return products;
     }
 
-    // 상품 등록
     public void insertProduct(Product product, Connection conn) throws SQLException {
         String sql = "INSERT INTO tb_product " +
                 "(no_product, nm_product, nm_detail_explain, id_file, dt_start_date, dt_end_date, " +
@@ -204,8 +247,6 @@ public class ProductDao {
         }
     }
 
-
-    // 상품 삭제
     public void deleteProduct(String noProduct) {
         String sql = "DELETE FROM tb_product WHERE no_product = ?";
 
@@ -220,7 +261,6 @@ public class ProductDao {
         }
     }
 
-    // 상품 상세 조회
     public Product findProductById(String noProduct) {
         String sql = "SELECT * FROM tb_product WHERE no_product = ?";
         Product product = null;
@@ -243,7 +283,6 @@ public class ProductDao {
         return product;
     }
 
-    // 상품 수정
     public void updateProduct(Product product, Connection conn) throws SQLException {
         String sql = "UPDATE tb_product SET " +
                 "nm_product = ?, nm_detail_explain = ?, id_file = ?, dt_start_date = ?, dt_end_date = ?, " +
@@ -267,14 +306,27 @@ public class ProductDao {
             ps.executeUpdate();
         }
     }
-    public List<Product> findProductsByCategory(int categoryId) {
+
+    public void decreaseStock(String productId, int quantity, Connection conn) throws Exception {
+        String sql = "UPDATE TB_PRODUCT SET qt_stock = qt_stock - ? WHERE no_product = ? AND qt_stock >= ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, quantity);
+            stmt.setString(2, productId);
+            stmt.setInt(3, quantity);
+            int updated = stmt.executeUpdate();
+            if (updated == 0) {
+                throw new RuntimeException("재고 부족 또는 존재하지 않는 상품: " + productId);
+            }
+        }
+    }
+
+    public List<Product> findUnmappedProducts(int categoryId) {
         String sql = """
-        SELECT p.*
-        FROM tb_product p
-        JOIN tb_category_product_mapping m ON p.no_product = m.no_product
-        WHERE m.nb_category = ?
-        ORDER BY m.cn_order
-    """;
+        SELECT * FROM tb_product
+        WHERE no_product NOT IN (
+            SELECT no_product FROM tb_category_product_mapping WHERE nb_category = ?
+        )
+        """;
 
         List<Product> products = new ArrayList<>();
 
@@ -295,8 +347,6 @@ public class ProductDao {
         return products;
     }
 
-
-    // 결과 ResultSet → Product 객체 매핑
     private Product mapProduct(ResultSet rs) throws SQLException {
         Product product = new Product();
         product.setNoProduct(rs.getString("no_product"));
@@ -316,44 +366,4 @@ public class ProductDao {
         }
         return product;
     }
-
-    public void decreaseStock(String productId, int quantity, Connection conn) throws Exception {
-        String sql = "UPDATE TB_PRODUCT SET qt_stock = qt_stock - ? WHERE no_product = ? AND qt_stock >= ?";
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, quantity);
-            stmt.setString(2, productId);
-            stmt.setInt(3, quantity);
-            int updated = stmt.executeUpdate();
-            if (updated == 0) {
-                throw new RuntimeException("재고 부족 또는 존재하지 않는 상품: " + productId);
-            }
-        }
-    }
-    public List<Product> findUnmappedProducts(int categoryId) {
-        String sql = """
-        SELECT * FROM tb_product
-        WHERE no_product NOT IN (
-            SELECT no_product FROM tb_category_product_mapping WHERE nb_category = ?
-        )
-    """;
-
-        List<Product> products = new ArrayList<>();
-
-        try (Connection conn = JdbcDriver.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setInt(1, categoryId);
-            try (ResultSet rs = ps.executeQuery()) {
-                while (rs.next()) {
-                    products.add(mapProduct(rs));
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return products;
-    }
-
 }

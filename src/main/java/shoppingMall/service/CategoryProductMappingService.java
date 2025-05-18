@@ -14,4 +14,8 @@ public class CategoryProductMappingService {
         CategoryProductMapping mapping = new CategoryProductMapping(categoryId, productId, 1, register, new Date());
         categoryProductMappingDao.insert(mapping, conn);
     }
+
+    public void deleteMapping(int categoryId, String productId) throws SQLException {
+        categoryProductMappingDao.delete(categoryId, productId);
+    }
 }

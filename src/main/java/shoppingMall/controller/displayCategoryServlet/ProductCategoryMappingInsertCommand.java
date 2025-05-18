@@ -20,13 +20,10 @@ public class ProductCategoryMappingInsertCommand implements Command {
             return "/admin/manageDisplayCategory.jsp";
         }
 
-        long rawProductId = Long.parseLong(request.getParameter("noProduct"));
-        int productId = Math.abs((int)(rawProductId % Integer.MAX_VALUE));
-
+        String productId = request.getParameter("noProduct");
         int order = Integer.parseInt(request.getParameter("cnOrder"));
 
         productDao.mapProductToCategory(productId, categoryId, order);
         return "redirect:/manageDisplayCategory.do?selectedCategoryId=" + categoryId;
     }
-
 }
