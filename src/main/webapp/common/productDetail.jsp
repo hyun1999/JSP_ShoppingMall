@@ -20,6 +20,12 @@
     <div class="product-info">
       <p><strong>가격:</strong> ₩${product.qtSalePrice}</p>
       <p><strong>소비자 가격:</strong> ₩${product.qtCustomerPrice}</p>
+      <p><strong>배송료:</strong>
+        <c:choose>
+          <c:when test="${product.qtDeliveryFee == 0}">무료</c:when>
+          <c:otherwise>₩${product.qtDeliveryFee}</c:otherwise>
+        </c:choose>
+      </p>
       <p><strong>재고:</strong> ${product.qtStock} 개</p>
       <p><strong>설명:</strong> ${product.nmDetailExplain}</p>
     </div>

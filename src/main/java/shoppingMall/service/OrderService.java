@@ -18,8 +18,10 @@ public class OrderService {
     private final OrderItemDao orderItemDao = new OrderItemDao();
     private final ProductService productService = new ProductService();
 
-    public String placeOrder(String userId, String productId, int quantity, String orderPerson,
-                           String receiver, String tel, String zip, String address, String place) {
+    public String placeOrder(String userId, String productId, int quantity,
+                             String orderPerson, String receiver, String tel,
+                             String zip, String address, String place,
+                             int deliveryFee, int totalAmount) {
 
         Product product = productService.getProductById(productId);
         String orderId = UUID.randomUUID().toString().replace("-", "").substring(0, 30);
@@ -27,10 +29,7 @@ public class OrderService {
         LocalDateTime now = LocalDateTime.now();
 
         int unitPrice = product.getQtSalePrice();
-        int totalAmount = unitPrice * quantity;
-        int deliveryFee = product.getQtDeliveryFee();
 
-        // 주문 객체 생성
         Order order = new Order();
         order.setIdOrder(orderId);
         order.setNoUser(userId);
@@ -50,7 +49,6 @@ public class OrderService {
         order.setNoRegister(userId);
         order.setDaFirstDate(now);
 
-        // 주문 품목 객체 생성
         OrderItem item = new OrderItem();
         item.setIdOrderItem(orderItemId);
         item.setIdOrder(orderId);
@@ -59,7 +57,7 @@ public class OrderService {
         item.setNoUser(userId);
         item.setQtUnitPrice(unitPrice);
         item.setQtOrderItem(quantity);
-        item.setQtOrderItemAmount(totalAmount);
+        item.setQtOrderItemAmount(unitPrice * quantity);
         item.setQtOrderItemDeliveryFee(deliveryFee);
         item.setStPayment("20");
         item.setNoRegister(userId);
@@ -76,8 +74,10 @@ public class OrderService {
             e.printStackTrace();
             throw new RuntimeException("주문 처리 실패", e);
         }
+
         return orderId;
     }
+
 
     public Order getOrderById(String orderId) {
         return orderDao.getOrderById(orderId);

@@ -66,7 +66,6 @@
     </c:otherwise>
   </c:choose>
 
-  <!-- 마이페이지로 돌아가기 버튼 -->
   <div style="text-align: center; margin-top: 30px;">
     <a href="mypage.do" class="back-btn">← 마이페이지로 돌아가기</a>
   </div>
