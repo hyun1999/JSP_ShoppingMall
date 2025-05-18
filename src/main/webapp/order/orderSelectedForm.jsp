@@ -6,41 +6,78 @@
     <meta charset="UTF-8">
     <title>선택 상품 주문서</title>
     <link rel="stylesheet" href="<%= request.getContextPath() %>/css/orderSelectedForm.css?v=<%= System.currentTimeMillis() %>">
-
+    <script>
+        const contextPath = "<%= request.getContextPath() %>";
+    </script>
 </head>
 <body>
-<h2>선택 상품 주문</h2>
+<div class="container">
+    <div class="login-wrapper">
+        <a href="<%= request.getContextPath() %>/home.do" class="logo">
+            <img src="<%= request.getContextPath() %>/images/logo.jpg" alt="로고" class="logo-img">
+        </a>
 
-<form action="submitSelectedOrder.do" method="post">
-    <table border="1">
-        <thead>
-        <tr>
-            <th>상품 ID</th>
-            <th>수량</th>
-            <th>금액</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="item" items="${selectedItems}">
-            <tr>
-                <td>${item.productId}</td>
-                <td>${item.quantity}</td>
-                <td>${item.amount}</td>
-            </tr>
-            <input type="hidden" name="itemIds" value="${item.itemId}">
-        </c:forEach>
-        </tbody>
-    </table>
+        <h2 class="section-title">선택 상품 주문</h2>
 
-    <h3>주문자 정보 입력</h3>
-    <label>주문자 이름: <input type="text" name="orderPerson" required></label><br>
-    <label>수령인 이름: <input type="text" name="receiver" required></label><br>
-    <label>전화번호: <input type="text" name="receiverTel" required></label><br>
-    <label>우편번호: <input type="text" name="zip" required></label><br>
-    <label>주소: <input type="text" name="address" required></label><br>
-    <label>배송 요청사항: <input type="text" name="deliveryPlace"></label><br>
+        <form action="submitSelectedOrder.do" method="post" class="login-form">
+            <table class="order-table">
+                <thead>
+                <tr>
+                    <th>상품 ID</th>
+                    <th>수량</th>
+                    <th>금액</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="item" items="${selectedItems}">
+                    <tr>
+                        <td>${item.productId}</td>
+                        <td>${item.quantity}</td>
+                        <td>${item.amount}</td>
+                        <input type="hidden" name="itemIds" value="${item.itemId}">
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
 
-    <button type="submit">주문하기</button>
-</form>
+            <div class="tab-under-line"></div>
+
+            <h3 class="form-section-title">주문자 정보 입력</h3>
+
+            <div class="input-group">
+                <div class="input-center">
+                    <input type="text" name="orderPerson" placeholder="주문자 이름" class="custom-input" required>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-center">
+                    <input type="text" name="receiver" placeholder="수령인 이름" class="custom-input" required>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-center">
+                    <input type="text" name="receiverTel" placeholder="전화번호" class="custom-input" required>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-center">
+                    <input type="text" name="zip" placeholder="우편번호" class="custom-input" required>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-center">
+                    <input type="text" name="address" placeholder="주소" class="custom-input" required>
+                </div>
+            </div>
+            <div class="input-group">
+                <div class="input-center">
+                    <input type="text" name="deliveryPlace" placeholder="배송 요청사항" class="custom-input">
+                </div>
+            </div>
+
+            <button type="submit" class="login-btn">주문하기</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>
