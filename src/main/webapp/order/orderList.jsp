@@ -46,7 +46,7 @@
                 <c:when test="${order.stOrder == '10'}">주문완료</c:when>
                 <c:when test="${order.stOrder == '20'}">배송중</c:when>
                 <c:when test="${order.stOrder == '30'}">배송완료</c:when>
-                <c:when test="${order.stOrder == '30'}">취소완료</c:when>
+                <c:when test="${order.stOrder == '99'}">취소완료</c:when>
                 <c:otherwise>${order.stOrder}</c:otherwise>
               </c:choose>
             </td>
