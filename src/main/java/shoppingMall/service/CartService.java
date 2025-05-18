@@ -1,6 +1,8 @@
 package shoppingMall.service;
 
 import shoppingMall.dao.CartDao;
+import shoppingMall.dao.ProductDao;
+import shoppingMall.domain.Product;
 import shoppingMall.dto.CartItemDto;
 
 import java.util.List;
@@ -29,6 +31,18 @@ public class CartService {
     }
 
     public CartItemDto getCartItemById(String itemId) {
-        return cartDao.selectCartItemById(itemId);
+        CartItemDto item = cartDao.selectCartItemById(itemId);
+
+        if (item != null) {
+            ProductDao productDao = new ProductDao();
+            Product product = productDao.findProductById(item.getProductId());
+
+            if (product != null) {
+                item.setDeliveryFee(product.getQtDeliveryFee());
+            }
+        }
+
+        return item;
     }
+
 }

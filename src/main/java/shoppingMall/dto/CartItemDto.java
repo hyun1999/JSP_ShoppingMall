@@ -6,6 +6,24 @@ public class CartItemDto {
     private String productId;
     private int quantity;
     private int amount;
+    private int deliveryFee;
+    private int salePrice;
+
+    public int getSalePrice() {
+        return salePrice;
+    }
+
+    public void setSalePrice(int salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    public int getDeliveryFee() {
+        return deliveryFee;
+    }
+
+    public void setDeliveryFee(int deliveryFee) {
+        this.deliveryFee = deliveryFee;
+    }
 
     public int getItemId() { return itemId; }
     public void setItemId(int itemId) { this.itemId = itemId; }

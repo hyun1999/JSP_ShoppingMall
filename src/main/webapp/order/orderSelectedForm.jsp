@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -33,12 +35,25 @@
                     <tr>
                         <td>${item.productId}</td>
                         <td>${item.quantity}</td>
-                        <td>${item.amount}</td>
+                        <td>₩${item.amount}</td>
                         <input type="hidden" name="itemIds" value="${item.itemId}">
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
+
+            <!-- 합계 출력 -->
+            <div class="order-summary">
+                <p><strong>상품 총액:</strong> <fmt:formatNumber value="${productTotal}" type="currency" currencySymbol="₩" groupingUsed="true"/></p>
+                <p><strong>배송비 합계:</strong> <fmt:formatNumber value="${deliveryFee}" type="currency" currencySymbol="₩" groupingUsed="true"/></p>
+                <p><strong>총 결제금액:</strong> <fmt:formatNumber value="${totalAmount}" type="currency" currencySymbol="₩" groupingUsed="true"/></p>
+            </div>
+
+
+            <!-- 서버 전달용 hidden 필드 -->
+            <input type="hidden" name="productTotal" value="${productTotal}">
+            <input type="hidden" name="deliveryFee" value="${deliveryFee}">
+            <input type="hidden" name="totalAmount" value="${totalAmount}">
 
             <div class="tab-under-line"></div>
 

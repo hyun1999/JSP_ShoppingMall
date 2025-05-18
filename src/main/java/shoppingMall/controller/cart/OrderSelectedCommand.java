@@ -27,14 +27,28 @@ public class OrderSelectedCommand implements Command {
         }
 
         List<CartItemDto> selectedItems = new ArrayList<>();
+        int productTotal = 0;
+        int deliveryFee = 0;
+
         for (String itemId : selectedItemIds) {
             CartItemDto item = cartService.getCartItemById(itemId);
             if (item != null) {
                 selectedItems.add(item);
+
+                int itemTotal = item.getAmount();
+                productTotal += itemTotal;
+                deliveryFee += item.getDeliveryFee();
             }
         }
 
+
+        int totalAmount = productTotal + deliveryFee;
+
         request.setAttribute("selectedItems", selectedItems);
+        request.setAttribute("productTotal", productTotal);
+        request.setAttribute("deliveryFee", deliveryFee);
+        request.setAttribute("totalAmount", totalAmount);
+
         return "/order/orderSelectedForm.jsp";
     }
 }
